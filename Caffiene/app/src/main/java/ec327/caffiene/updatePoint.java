@@ -1,28 +1,40 @@
 package ec327.caffiene;
 
+import android.util.Log;
+
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 
 public class updatePoint extends Thread {
 
-    DataPoint point; //replace with actual data from the database //need method for this
+    DataPoint point = database.getPoint();
     LineGraphSeries<DataPoint> series;
+    public static boolean stopflag = false;
 
-    public updatePoint(LineGraphSeries<DataPoint> series) {
+    public updatePoint(LineGraphSeries<DataPoint> series)
+    {
         this.series = series;
     }
 
     public void run()
     {
-        series.appendData(point,true,40); //display max 40 data points. Scroll to end = true.
-        point = database.getPoint();
-        try
+
+        if (!stopflag)
         {
-            Thread.sleep(1000);
-            run(); //keep updating every minute
+            this.series.appendData(point,false,40); //display max 40 data points. Scroll to end = true.
+            point = database.getPoint(); //update the point every time this runs
+            try
+            {
+                Thread.sleep(60000);
+                run(); //keep updating every minute
+            }
+            catch (InterruptedException ie)
+            {
+                return;
+            }
         }
-        catch (InterruptedException ie)
+        else
         {
             return;
         }

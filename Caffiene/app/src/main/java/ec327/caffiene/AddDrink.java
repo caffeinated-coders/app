@@ -1,9 +1,12 @@
 package ec327.caffiene;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -18,20 +21,31 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class AddDrink extends AppCompatActivity {
-    private Thread searchresults = new Thread(new dynamicSearch());
+    private Thread searchresults;
     public static ArrayList<String> matches;
-    private LinearLayout sublayout;
-    public EditText searchbar = (EditText) findViewById(R.id.search_bar);
+    private static LinearLayout sublayout;
+    public static EditText searchbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_add_drink);
+        searchbar = (EditText) findViewById(R.id.search_bar);
+        searchresults = new Thread(new dynamicSearch());
+        sublayout = (LinearLayout) findViewById(R.id.search_results);
         //matches initially contains all possible drinks
         matches = database.allDrinks();
         //buttons for each of these drinks is initially displayed
-        addResults(database.allDrinks());
+        addResults(matches);
         //start the thread that updates the search results
         searchresults.start();
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        dynamicSearch.stopflag = true; //will replace with appropriate function; this is deprecated
     }
 
     public void addDrink(View view) //callback function for add drink button
@@ -70,7 +84,7 @@ public class AddDrink extends AppCompatActivity {
             try
             {
                 java.util.Date Date = dateFormat.parse(dateview.getText().toString());
-                time = Date.getTime()/1000; //as time is in milli seconds.
+                time = Date.getTime()/1000; //as time is in milliseconds.
 
             }
             catch (ParseException p)
@@ -83,10 +97,9 @@ public class AddDrink extends AppCompatActivity {
         database.addDrinktoDB(drink,time);
     }
 
-    public String getQuery()
+    public static String getQuery()
     {
-        EditText queryview = (EditText) findViewById(R.id.search_bar);
-        return queryview.getText().toString();
+        return searchbar.getText().toString();
     }
 
     public void addCustom(View view) //callback function for adding custom drink button
@@ -95,19 +108,28 @@ public class AddDrink extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void addResults(ArrayList<String> drinks) {
-        sublayout = (LinearLayout) findViewById(R.id.search_results);
+    public void addResults(final ArrayList<String> drinks) {
         for (int i = 0; i < database.numDrinks; i++)
         {
+            final String drink = drinks.get(i);
             final ToggleButton drinkview = new ToggleButton(this);
-            drinkview.setText(drinks.get(i));
+            drinkview.setText(drink);
+            drinkview.setBackgroundColor(ContextCompat.getColor(this, R.color.button));
             sublayout.addView(drinkview);
             //set a listener for each toggle button. This changes the color of the button if user clicks on it
             drinkview.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
-                        drinkview.setBackgroundColor(0x00cc99);
+                        drinkview.setBackgroundColor(0xc2c2a3);
                         drinkview.setChecked(true);
+                        drinkview.setTextOn(drink);
+                        drinkview.setTextColor(0xffffff);
+                    }
+                    else
+                    {
+                        drinkview.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.button));
+                        drinkview.setTextOff(drink);
+                        drinkview.setTextColor(0xffffff);
                     }
                 }
             });

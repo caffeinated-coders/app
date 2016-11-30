@@ -20,7 +20,8 @@
             android:ems="10"
             android:id="@+id/name"
             android:hint="@string/name"
-            android:textColorHint="#ffffff" />
+            android:textColorHint="#ffffff"
+            android:textColor="#ffffff" />
 
         <Spinner
             android:id="@+id/choose_gender"
@@ -33,7 +34,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginTop="52dp"
-            android:background="#64cb3d8e" />
+            android:background="#64cb3d8e"
+            android:spinnerMode="dialog" />
 
 
         <EditText
@@ -48,7 +50,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:hint="@string/weight"
-            android:textColorHint="#ffffff" />
+            android:textColorHint="#ffffff"
+            android:textColor="#ffffff" />
 
 
         <EditText
@@ -63,7 +66,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:hint="@string/age"
-            android:textColorHint="#ffffff" />
+            android:textColorHint="#ffffff"
+            android:textColor="#ffffff" />
 
         <Button
             android:layout_width="match_parent"
