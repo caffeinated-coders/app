@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Caffiene</string>
+    <string name="action_settings">SETTINGS</string>
+    <string name="choose_your_gender">GENDER</string>
+    <string name="submit">SUBMIT</string>
+    <string name="weight">WEIGHT (kg)</string>
+    <string name="name">NAME</string>
+    <string name="age">AGE</string>
+    <string name="add_drink">ADD MY DRINK!</string>
+    <string name="date">DATE</string>
+    <string name="custom_drink">DRINK NAME</string>
+    <string name="caffiene_content">CAFFIENE CONTENT (mg)</string>
+    <string name="add_custom">ADD CUSTOM DRINK!</string>
+    <string name="add_new_drink">ADD NEW DRINK!</string>
+    <string name="search">SEARCH</string>
+    <string name="drink_now">DRINK NOW</string>
+    <string-array name="gender">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+</resources>
