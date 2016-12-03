@@ -1,15 +1,18 @@
 package ec327.caffiene;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.Window;
 
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.LegendRenderer;
+import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -21,6 +24,7 @@ public class HomePage extends AppCompatActivity
     private LineGraphSeries<DataPoint> series;
     private Thread add;
     public boolean stopflag = false;
+    int color = 0xC8E8DEDE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -28,12 +32,31 @@ public class HomePage extends AppCompatActivity
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_home_page);
-
         graph = (GraphView) findViewById(R.id.graph);
         datapts = database.getData();
         series = new LineGraphSeries<>(datapts);
+        //make it pretty
+        series.setColor(color);
+        this.graph.setTitle("CAFFIENE CONTENT (mg) vs. TIME (h)");
+        this.graph.setTitleColor(color);
+        //make it scrollable and scalable
+        Viewport port = this.graph.getViewport();
+        port.isScalable();
+        port.isScrollable();
+        port.setMinX(0);
+        port.setMaxX(24);
+        GridLabelRenderer rendrer = this.graph.getGridLabelRenderer();
+        //setting titles and colors
+        rendrer.setHorizontalAxisTitle("TIME (h)");
+        rendrer.setHorizontalAxisTitleColor(color);
+        rendrer.setVerticalAxisTitleColor(color);
+        rendrer.setVerticalAxisTitle("CAFFIENE CONTENT (mg)");
+        rendrer.setHorizontalLabelsColor(color);
+        rendrer.setVerticalLabelsColor(color);
+        //display the content
         add = new Thread(new updatePoint(series));
         //check if user is new:
+
         boolean isNew = database.newUser();
         if (isNew) //if new, we navigate to StartPage to allow user to enter info.
         {

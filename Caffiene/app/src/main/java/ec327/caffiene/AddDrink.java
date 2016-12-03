@@ -2,6 +2,7 @@ package ec327.caffiene;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -111,28 +112,44 @@ public class AddDrink extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void checkIfSelected()
+    {
+        int numresults = sublayout.getChildCount();
+        for (int i = 0; i < numresults; i++)
+        {
+            ToggleButton child = (ToggleButton) sublayout.getChildAt(i);
+            if (child.isChecked()) //get isChecked attribute to see if user has checked.
+            {
+                stopflag = true;
+                break; //ensures we only take into consideration the first checked button
+            }
+        }
+    }
+
     public void addResults(final ArrayList<String> drinks) {
         for (int i = 0; i < drinks.size(); i++)
         {
             final String drink = drinks.get(i);
             final ToggleButton drinkview = new ToggleButton(this);
             drinkview.setText(drink);
+            drinkview.setTextColor(Color.WHITE);
             drinkview.setBackgroundColor(ContextCompat.getColor(this, R.color.button));
             sublayout.addView(drinkview);
             //set a listener for each toggle button. This changes the color of the button if user clicks on it
             drinkview.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
-                        drinkview.setBackgroundColor(0xc2c2a3);
+                        drinkview.setBackgroundColor(0x64443737);
                         drinkview.setChecked(true);
                         drinkview.setTextOn(drink);
-                        drinkview.setTextColor(0xffffff);
+                        drinkview.setTextColor(Color.WHITE);
                     }
                     else
                     {
                         drinkview.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.button));
+                        drinkview.setChecked(false);
                         drinkview.setTextOff(drink);
-                        drinkview.setTextColor(0xffffff);
+                        drinkview.setTextColor(Color.WHITE);
                     }
                 }
             });
@@ -146,26 +163,38 @@ public class AddDrink extends AppCompatActivity {
         {
             while (true)
             {
+                checkIfSelected();
                 if (!stopflag) {
                     //checks if user has started to type in search bar. If so, then start thread that narrows down the searches
-                    if (!(searchbar.getHint().equals(R.string.search))) {
-                        this.typed = AddDrink.getQuery();
-                        //updates our list of matches
-                        database.matchQuery(this.typed);
-                        //adds toggle buttons for each of them
+                    if (searchbar.getText().toString().length() != 0)
+                    {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
 
-                                addResults(matches);
+                                sublayout.removeAllViews();
 
                             }
                         });
+                        this.typed = AddDrink.getQuery();
+                        //updates our list of matches
+                        database.matchQuery(this.typed);
+                        //adds toggle buttons for each of them
+                        runOnUiThread(new Runnable()
+                        {
+                            @Override
+                            public void run()
+                            {
 
+                                addResults(matches);
+                            }
+                        });
                     }
-                    try {
+                    try
+                    {
                         Thread.sleep(1000); //reruns every 10 milliseconds to update the search results
-                    } catch (InterruptedException ie) {
+                    } catch (InterruptedException ie)
+                    {
                         return;
                     }
                 } else {
