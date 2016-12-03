@@ -24,6 +24,7 @@ public class database {
     {
         return new DataPoint[]
                 {//we will only be displaying the data for the current day.
+                        //PUT DATA POITNS HERE --Nehemiah
                         new DataPoint(0, 1), //replace these numbers with actual x-y vals
                         new DataPoint(1, 5), //x should range from 0-24 hrs
                         new DataPoint(2, 3),
@@ -31,19 +32,22 @@ public class database {
                         new DataPoint(4, 6)
                 };
     }
-
+    //don't touch
     public static DataPoint getPoint()
     {
+        //Plot things and then
         counter++;
         return new DataPoint(counter,2); //replace with actual value from database
     }
 
+    //info data
     public static void addInfo(int age, double weight, String name, String gender)
     {
         //add these to the database
     }
 
-    public static void addDrinktoDB(String drink, long time)
+    //
+    public static void addDrinktoDB(int drink, long time)
     {
         //add drink to database
         //called when user decides that he/she wants to drink a specefic drink at the specefied time
@@ -54,6 +58,7 @@ public class database {
         //that don't don't have query as a substring
         //AddDrink.matches.remove(0); //dummy index.
         Log.d(TAG,"ran this function in the thread");
+        //
         //NOTE: this function is repeatedly called in a thread, so you must make sure it is efficient.
         //NOTE: THE ARRAYLIST YOU HAVE TO MODIFY IS AddDrink.matches
     }
@@ -63,6 +68,7 @@ public class database {
         //adds this custom drink to the database
     }
 
+    //this is all of the drinks.
     public static ArrayList<String> allDrinks()
     {
         numDrinks = 5; //the number of drinks in the database
