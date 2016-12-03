@@ -25,6 +25,7 @@ public class AddDrink extends AppCompatActivity {
     public static ArrayList<String> matches;
     private static LinearLayout sublayout;
     public static EditText searchbar;
+    public boolean stopflag = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,9 +33,10 @@ public class AddDrink extends AppCompatActivity {
         setContentView(R.layout.activity_add_drink);
         searchbar = (EditText) findViewById(R.id.search_bar);
         searchresults = new Thread(new dynamicSearch());
-        sublayout = (LinearLayout) findViewById(R.id.search_results);
         //matches initially contains all possible drinks
         matches = database.allDrinks();
+        //sublayout which contains all buttons
+        sublayout = (LinearLayout) findViewById(R.id.search_results);
         //buttons for each of these drinks is initially displayed
         addResults(matches);
         //start the thread that updates the search results
@@ -45,7 +47,8 @@ public class AddDrink extends AppCompatActivity {
     protected void onStop()
     {
         super.onStop();
-        dynamicSearch.stopflag = true; //will replace with appropriate function; this is deprecated
+        this.stopflag = true;
+
     }
 
     public void addDrink(View view) //callback function for add drink button
@@ -109,7 +112,7 @@ public class AddDrink extends AppCompatActivity {
     }
 
     public void addResults(final ArrayList<String> drinks) {
-        for (int i = 0; i < database.numDrinks; i++)
+        for (int i = 0; i < drinks.size(); i++)
         {
             final String drink = drinks.get(i);
             final ToggleButton drinkview = new ToggleButton(this);
@@ -133,6 +136,42 @@ public class AddDrink extends AppCompatActivity {
                     }
                 }
             });
+        }
+    }
+    public class dynamicSearch extends Thread
+    {
+        public String typed;
+        @Override
+        public void run()
+        {
+            while (true)
+            {
+                if (!stopflag) {
+                    //checks if user has started to type in search bar. If so, then start thread that narrows down the searches
+                    if (!(searchbar.getHint().equals(R.string.search))) {
+                        this.typed = AddDrink.getQuery();
+                        //updates our list of matches
+                        database.matchQuery(this.typed);
+                        //adds toggle buttons for each of them
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                addResults(matches);
+
+                            }
+                        });
+
+                    }
+                    try {
+                        Thread.sleep(1000); //reruns every 10 milliseconds to update the search results
+                    } catch (InterruptedException ie) {
+                        return;
+                    }
+                } else {
+                    return;
+                }
+            }
         }
     }
 

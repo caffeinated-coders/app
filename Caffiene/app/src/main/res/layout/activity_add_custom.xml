@@ -8,7 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ec327.caffiene.AddCustom"
-    android:background="#8d2853">
+    android:background="@drawable/background">
 
     <EditText
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="71dp"
         android:hint="@string/custom_drink"
-        android:textColorHint="#ffffff" />
+        android:textColorHint="@color/white" />
 
     <EditText
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:hint="@string/caffiene_content"
-        android:textColorHint="#ffffff" />
+        android:textColorHint="@color/white" />
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,7 +39,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="60dp"
-        android:background="#f4ccde" />
+        android:background="@color/button"
+        android:textColor="@color/white" />
 
 
 </RelativeLayout>

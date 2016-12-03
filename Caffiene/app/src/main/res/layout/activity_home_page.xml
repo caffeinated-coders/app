@@ -10,13 +10,12 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ec327.caffiene.HomePage"
-    android:background="#8d2853">
+    android:background="@drawable/background">
 
     <com.jjoe64.graphview.GraphView
         android:layout_width="match_parent"
         android:layout_height="490dp"
-        android:id="@+id/graph"
-        android:background="#ffffff" />
+        android:id="@+id/graph" />
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,7 +23,7 @@
         android:id="@+id/add_drink"
         android:layout_gravity="center_horizontal"
         android:onClick="add"
-        android:background="#f4ccde"
-        android:textColor="#000000" />
+        android:background="@color/button"
+        android:textColor="@color/white" />
 </LinearLayout>
 

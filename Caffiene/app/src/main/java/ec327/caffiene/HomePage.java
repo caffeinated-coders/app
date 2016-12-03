@@ -20,6 +20,7 @@ public class HomePage extends AppCompatActivity
     private DataPoint[] datapts;
     private LineGraphSeries<DataPoint> series;
     private Thread add;
+    public boolean stopflag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -50,7 +51,7 @@ public class HomePage extends AppCompatActivity
     protected void onStop()
     {
         super.onStop();
-        updatePoint.stopflag = true;
+        this.stopflag = true;
 
     }
 
@@ -61,6 +62,42 @@ public class HomePage extends AppCompatActivity
         Intent intent = new Intent(this,AddDrink.class);
         startActivity(intent);
     }
+
+    public class updatePoint extends Thread {
+
+        DataPoint point = database.getPoint();
+        LineGraphSeries<DataPoint> series;
+
+        public updatePoint(LineGraphSeries<DataPoint> series)
+        {
+            this.series = series;
+        }
+
+        public void run()
+        {
+            while (true)
+            {
+                if (!stopflag)
+                {
+                    this.series.appendData(point,false,40); //display max 40 data points. Scroll to end = true.
+                    point = database.getPoint(); //update the point every time this runs
+                    try
+                    {
+                        Thread.sleep(6000);
+                    }
+                    catch (InterruptedException ie)
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+        }
+    }
+
 
 }
 

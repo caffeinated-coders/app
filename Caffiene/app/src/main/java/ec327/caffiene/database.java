@@ -1,5 +1,7 @@
 package ec327.caffiene;
 
+import android.util.Log;
+
 import com.jjoe64.graphview.series.DataPoint;
 
 import java.util.ArrayList;
@@ -12,10 +14,11 @@ import java.util.Random;
 public class database {
     public static int numDrinks;
     public static int counter = 5; //DELETE WHEN YOU IMPLEMENT getPoint function!
+    private static final String TAG = "threadDebug"; //remove later!
     public static boolean newUser()
     {
         //check if user is new by checking if the database is already populated.
-        return true;
+        return false;
     }
     public static DataPoint[] getData()
     {
@@ -49,7 +52,9 @@ public class database {
     public static void matchQuery(String query) //this is called when the user is searching our database for a drink to add.
     {//We will implement a dynamic search, this function should remove all strings from the static arraylist in AddDrink.class
         //that don't don't have query as a substring
-        AddDrink.matches.remove(4); //dummy index.
+        //AddDrink.matches.remove(0); //dummy index.
+        Log.d(TAG,"ran this function in the thread");
+        //NOTE: this function is repeatedly called in a thread, so you must make sure it is efficient.
         //NOTE: THE ARRAYLIST YOU HAVE TO MODIFY IS AddDrink.matches
     }
 
@@ -67,7 +72,7 @@ public class database {
         list.add(1, "coffee") ;
         list.add(2, "tea") ;
         list.add(3, "fanta") ;
-        list.add(4, "pee") ;
+        list.add(4, "lemonade") ;
         return list;
     }
 }

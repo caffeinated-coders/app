@@ -8,7 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ec327.caffiene.StartPage"
-    android:background="#8d2853"
+    android:background="@drawable/background"
     android:clickable="false"
     android:focusable="true">
 
@@ -20,8 +20,8 @@
             android:ems="10"
             android:id="@+id/name"
             android:hint="@string/name"
-            android:textColorHint="#ffffff"
-            android:textColor="#ffffff" />
+            android:textColorHint="@color/white"
+            android:textColor="@color/white" />
 
         <Spinner
             android:id="@+id/choose_gender"
@@ -34,7 +34,6 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginTop="52dp"
-            android:background="#64cb3d8e"
             android:spinnerMode="dialog" />
 
 
@@ -50,8 +49,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:hint="@string/weight"
-            android:textColorHint="#ffffff"
-            android:textColor="#ffffff" />
+            android:textColorHint="@color/white"
+            android:textColor="@color/white" />
 
 
         <EditText
@@ -66,8 +65,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:hint="@string/age"
-            android:textColorHint="#ffffff"
-            android:textColor="#ffffff" />
+            android:textColorHint="@color/white"
+            android:textColor="@color/white" />
 
         <Button
             android:layout_width="match_parent"
@@ -77,8 +76,9 @@
             android:onClick="submit"
             android:id="@+id/button"
             android:layout_alignParentBottom="true"
+            android:background="@color/button"
             android:layout_centerHorizontal="true"
-            android:background="#f4ccde" />
+            android:textColor="@color/white" />
 
 
 </RelativeLayout>
