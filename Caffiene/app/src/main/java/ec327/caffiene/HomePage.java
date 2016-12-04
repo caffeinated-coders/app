@@ -33,7 +33,7 @@ public class HomePage extends AppCompatActivity
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_home_page);
         graph = (GraphView) findViewById(R.id.graph);
-        datapts = database.getData();
+        datapts = database.getData(0,24);
         series = new LineGraphSeries<>(datapts);
         //make it pretty
         series.setColor(color);
@@ -102,8 +102,12 @@ public class HomePage extends AppCompatActivity
             {
                 if (!stopflag)
                 {
+                    /*
+                    System.out.println("X: " + point.getX() + ", Y: " + point.getY());
                     this.series.appendData(point,false,40); //display max 40 data points. Scroll to end = true.
-                    point = database.getPoint(); //update the point every time this runs
+
+                    point = database.getPoint(); //update the point every time this
+                    */
                     try
                     {
                         Thread.sleep(6000);

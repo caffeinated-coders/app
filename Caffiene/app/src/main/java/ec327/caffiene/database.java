@@ -13,13 +13,18 @@ import java.util.Random;
  */
 public class database {
     public static int numDrinks;
-    public static int counter = 5; //DELETE WHEN YOU IMPLEMENT getPoint function!
+    public static int counter = 0; //DELETE WHEN YOU IMPLEMENT getPoint function!
     private static final String TAG = "threadDebug"; //remove later!
+
+    //global caffine variables
+    private static double caffineLevel = 500;
+    private static double caffineInBrain = 0;
     public static boolean newUser()
     {
         //check if user is new by checking if the database is already populated.
         return false;
     }
+    /*
     public static DataPoint[] getData()
     {
         return new DataPoint[]
@@ -31,8 +36,53 @@ public class database {
                         new DataPoint(3, 2),
                         new DataPoint(4, 6)
                 };
+    }*/
+
+    public static DataPoint[] getData(long start, long end) {
+
+        //int iterations = 24;  //unneeded
+        int size = longToInt(end - start);
+        DataPoint[] data = new DataPoint[size];
+        //x is time, y is caffine amount
+        int i = 0;
+        for (long time = start; time < end; time++) {
+            double bout = Math.round(caffineInBrain * 100.0) / 100.0;
+            double cafout = Math.round(caffineLevel * 100.0) / 100.0;
+
+
+            data[i] = new DataPoint(time, caffineInBrain);      //the current caffine level is the next one to be put into data
+            caffineInBrain = bloodTick(caffineInBrain);         //incriment the caffine amount
+            i++;
+        }
+        return data;
     }
-    //don't touch
+
+    //easy way to convert longs to ints;
+    private static int longToInt(long number) {
+        Long l = new Long(number);    //casting it into object type
+        int i = l != null ? l.intValue() : null;
+        return i;
+    }
+    //Next two functions used to caclulate the next caffine amount tick
+    private static double caffineTick(double caffineAmount) {
+        double halfLife = 5.7; //
+        double changeInLevels = -(Math.log(2) / halfLife) * caffineAmount;
+
+        double result = caffineAmount + changeInLevels;
+        return result;
+    }
+
+    private static double bloodTick(double Blood) {
+        caffineLevel = caffineTick(caffineLevel);
+        double CAFFINE_METABOLISM = 1/2.5; //per hour
+        double CAFFINE_ABSORBTION = 1/2.7; //per hour
+        double changeInBlood = (-CAFFINE_METABOLISM * Blood) + (CAFFINE_ABSORBTION * caffineLevel);
+
+        double result = Blood + changeInBlood;
+
+        return result;
+    }
+    //don't touch (will be deleted)
     public static DataPoint getPoint()
     {
         //Plot things and then
@@ -46,7 +96,7 @@ public class database {
         //add these to the database
     }
 
-    //
+    //this gets called when the user decides to drink a cup of coffee
     public static void addDrinktoDB(int drink, long time)
     {
         //add drink to database

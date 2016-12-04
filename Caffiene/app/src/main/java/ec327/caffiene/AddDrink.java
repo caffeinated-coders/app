@@ -99,7 +99,7 @@ public class AddDrink extends AppCompatActivity {
                 return;
             }
         }
-        database.addDrinktoDB(drink,time);
+        database.addDrinktoDB(45,time);
     }
 
     public static String getQuery()
