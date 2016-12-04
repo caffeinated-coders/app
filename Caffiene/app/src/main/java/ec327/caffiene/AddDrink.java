@@ -35,7 +35,7 @@ public class AddDrink extends AppCompatActivity {
         searchbar = (EditText) findViewById(R.id.search_bar);
         searchresults = new Thread(new dynamicSearch());
         //matches initially contains all possible drinks
-        matches = database.allDrinks();
+        matches = database.allDrinks(); //create a new array to copy
         //sublayout which contains all buttons
         sublayout = (LinearLayout) findViewById(R.id.search_results);
         //buttons for each of these drinks is initially displayed
