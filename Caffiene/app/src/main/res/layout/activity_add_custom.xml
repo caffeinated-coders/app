@@ -19,7 +19,9 @@
         android:layout_marginTop="71dp"
         android:hint="@string/custom_drink"
         android:textColor="@color/white"
-        android:textColorHint="@color/white" />
+        android:textColorHint="@color/white"
+        android:layout_marginLeft="42dp"
+        android:layout_marginRight="42dp" />
 
     <EditText
         android:layout_width="match_parent"
@@ -31,7 +33,8 @@
         android:layout_centerHorizontal="true"
         android:hint="@string/caffiene_content"
         android:textColorHint="@color/white"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:layout_margin="42dp" />
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,7 +45,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="60dp"
         android:background="@color/button"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:layout_margin="42dp" />
 
 
 </RelativeLayout>

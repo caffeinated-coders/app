@@ -1,6 +1,6 @@
 package ec327.caffiene;
 
-import android.app.Activity;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
@@ -12,11 +12,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,6 +23,7 @@ public class AddDrink extends AppCompatActivity {
     public static ArrayList<String> matches;
     private static LinearLayout sublayout;
     public static EditText searchbar;
+    public ArrayList<String> alldrinks;
     public boolean stopflag = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +33,7 @@ public class AddDrink extends AppCompatActivity {
         searchbar = (EditText) findViewById(R.id.search_bar);
         searchresults = new Thread(new dynamicSearch());
         //matches initially contains all possible drinks
+        alldrinks = database.allDrinks();
         matches = database.allDrinks(); //create a new array to copy
         //sublayout which contains all buttons
         sublayout = (LinearLayout) findViewById(R.id.search_results);
@@ -76,6 +75,7 @@ public class AddDrink extends AppCompatActivity {
             toast.makeText(this,"Please select a drink",Toast.LENGTH_LONG);
             return;
         }
+        int drinkindex = alldrinks.indexOf(drink);
         CheckBox drinknowbutton = (CheckBox) findViewById(R.id.drink_now);
 
         if (drinknowbutton.isChecked())
@@ -84,22 +84,26 @@ public class AddDrink extends AppCompatActivity {
         }
         else
         {
-            EditText dateview = (EditText) findViewById(R.id.date);
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-YYYY");
+            EditText timeview = (EditText) findViewById(R.id.time);
             try
             {
-                java.util.Date Date = dateFormat.parse(dateview.getText().toString());
-                time = Date.getTime()/1000; //as time is in milliseconds.
+                Date today = new Date();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+                Date timeparsed = dateFormat.parse(timeview.getText().toString());
+                time = timeparsed.getTime();
+                 //as time is in milliseconds.
 
             }
-            catch (ParseException p)
+            catch (Exception p)
             {
                 Toast toast = Toast.makeText(getApplicationContext(), "Please enter a number",Toast.LENGTH_LONG);
                 toast.show();
                 return;
             }
         }
-        database.addDrinktoDB(drink,time);
+        database.addDrinktoDB(drinkindex,time);
+        Intent intent = new Intent(getApplicationContext(),HomePage.class);
+        startActivity(intent);
     }
 
     public static String getQuery()

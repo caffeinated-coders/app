@@ -24,6 +24,7 @@
         android:layout_gravity="center_horizontal"
         android:onClick="add"
         android:background="@color/button"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:layout_marginTop="15dp" />
 </LinearLayout>
 

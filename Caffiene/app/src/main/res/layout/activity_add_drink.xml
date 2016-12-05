@@ -24,7 +24,8 @@
         android:hint="@string/search"
         android:layout_marginTop="42dp"
         android:textColorHint="@color/white"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:layout_margin="42dp" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -37,12 +38,13 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="date"
+        android:inputType="time"
         android:ems="10"
-        android:id="@+id/date"
-        android:hint="@string/date"
+        android:id="@+id/time"
+        android:hint="@string/time"
         android:textColorHint="@color/white"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:layout_margin="42dp" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -60,7 +62,8 @@
         android:id="@+id/add"
         android:onClick="addDrink"
         android:layout_gravity="center_horizontal"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:layout_margin="42dp" />
 
 
     <TextView
@@ -81,7 +84,8 @@
         android:onClick="addCustom"
         android:background="@color/button"
         android:layout_gravity="center_horizontal"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:layout_margin="42dp" />
 
 
 </LinearLayout>
