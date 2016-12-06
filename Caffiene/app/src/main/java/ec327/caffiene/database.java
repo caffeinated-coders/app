@@ -23,21 +23,21 @@ public class database {
         return new DataPoint[]
                 {//we will only be displaying the data for the current day.
                         //PUT DATA POITNS HERE --Nehemiah
-                        new DataPoint(0, 1), //replace these numbers with actual x-y vals
-                        new DataPoint(1, 5), //x should range from 0-24 hrs
-                        new DataPoint(2, 3),
-                        new DataPoint(3, 2),
-                        new DataPoint(4, 6),
-                        new DataPoint(5, 1), //replace these numbers with actual x-y vals
-                        new DataPoint(16, 5), //x should range from 0-24 hrs
-                        new DataPoint(17, 3),
-                        new DataPoint(18, 2),
-                        new DataPoint(19, 6),
-                        new DataPoint(20, 1), //replace these numbers with actual x-y vals
-                        new DataPoint(21, 5), //x should range from 0-24 hrs
-                        new DataPoint(22, 3),
-                        new DataPoint(23, 2),
-                        new DataPoint(24, 6)
+                        new DataPoint(0, 100), //replace these numbers with actual x-y vals
+                        new DataPoint(1, 577), //x should range from 0-24 hrs
+                        new DataPoint(2, 34),
+                        new DataPoint(3, 233),
+                        new DataPoint(4, 60),
+                        new DataPoint(5, 134), //replace these numbers with actual x-y vals
+                        new DataPoint(16, 523), //x should range from 0-24 hrs
+                        new DataPoint(17, 334),
+                        new DataPoint(18, 234),
+                        new DataPoint(19, 64),
+                        new DataPoint(20, 134), //replace these numbers with actual x-y vals
+                        new DataPoint(21, 534), //x should range from 0-24 hrs
+                        new DataPoint(22, 334),
+                        new DataPoint(23, 234),
+                        new DataPoint(24, 63)
                 };
     }
     //don't touch
