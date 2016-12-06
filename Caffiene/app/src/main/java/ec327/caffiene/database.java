@@ -5,8 +5,6 @@ import android.util.Log;
 import com.jjoe64.graphview.series.DataPoint;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 /**
  * Created by trishita on 11/27/2016.
@@ -36,7 +34,17 @@ public class database {
                         new DataPoint(1, 5), //x should range from 0-24 hrs
                         new DataPoint(2, 3),
                         new DataPoint(3, 2),
-                        new DataPoint(4, 6)
+                        new DataPoint(4, 6),
+                        new DataPoint(5, 1), //replace these numbers with actual x-y vals
+                        new DataPoint(16, 5), //x should range from 0-24 hrs
+                        new DataPoint(17, 3),
+                        new DataPoint(18, 2),
+                        new DataPoint(19, 6),
+                        new DataPoint(20, 1), //replace these numbers with actual x-y vals
+                        new DataPoint(21, 5), //x should range from 0-24 hrs
+                        new DataPoint(22, 3),
+                        new DataPoint(23, 2),
+                        new DataPoint(24, 6)
                 };
     }*/
 
@@ -85,22 +93,16 @@ public class database {
 
         return result;
     }
-    //don't touch (will be deleted)
-    public static DataPoint getPoint()
-    {
-        //Plot things and then
-        counter++;
-        return new DataPoint(counter,2); //replace with actual value from database
-    }
-
     //info data
     public static void addInfo(int age, double weight, String name, String gender)
     {
         //add these to the database
     }
 
-    //this gets called when the user decides to drink a cup of coffee
-    public static void addDrinktoDB(int drink, long time)
+
+    //
+    public static void addDrinktoDB(int drinkindex, long time)
+
     {
         //add drink to database
         //called when user decides that he/she wants to drink a specefic drink at the specefied time

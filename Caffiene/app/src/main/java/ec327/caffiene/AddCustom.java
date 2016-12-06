@@ -1,5 +1,6 @@
 package ec327.caffiene;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +26,10 @@ public class AddCustom extends AppCompatActivity {
         {
             float caffiene = Float.parseFloat(caffieneviewer.getText().toString());
             database.addNewDrink(drink,caffiene);
+
+            //go to homepage
+            Intent intent = new Intent(getApplicationContext(),HomePage.class);
+            startActivity(intent);
         }
         catch (NumberFormatException e)
         {
