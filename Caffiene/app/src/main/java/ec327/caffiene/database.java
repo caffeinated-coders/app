@@ -11,13 +11,20 @@ import java.util.ArrayList;
  */
 public class database {
     public static int numDrinks;
-    public static int counter = 5; //DELETE WHEN YOU IMPLEMENT getPoint function!
+    public static int counter = 0; //DELETE WHEN YOU IMPLEMENT getPoint function!
     private static final String TAG = "threadDebug"; //remove later!
+
+    //global caffine variables
+    private static double caffineLevel = 500;
+    private static double caffineInBrain = 0;
+
+    private static int timeMult = 1; //1 for hours, 60 for minutes, 3600 for seconds.
     public static boolean newUser()
     {
         //check if user is new by checking if the database is already populated.
         return false;
     }
+    /*
     public static DataPoint[] getData()
     {
         return new DataPoint[]
@@ -39,18 +46,66 @@ public class database {
                         new DataPoint(23, 234),
                         new DataPoint(24, 63)
                 };
+    }*/
+
+    public static DataPoint[] getData(long start, long end) {
+
+        //int iterations = 24;  //unneeded
+        int size = longToInt(end - start) * timeMult;
+        DataPoint[] data = new DataPoint[size];
+        //x is time, y is caffine amount
+        int i = 0;
+        for (long time = start * timeMult; time < end * timeMult; time++) {
+            double bout = Math.round(caffineInBrain * 100.0) / 100.0;
+            double cafout = Math.round(caffineLevel * 100.0) / 100.0;
+
+            long outTime = (time/timeMult);
+            System.out.println("Time: " + time + " Brain Caffine: " + caffineInBrain + " Caffine Levels: " + caffineLevel);
+            StoredData.addData(caffineInBrain,time);
+            data[i] = new DataPoint(time, caffineInBrain);      //the current caffine level is the next one to be put into data
+            caffineInBrain = bloodTick(caffineInBrain);         //incriment the caffine amount
+            i++;
+        }
+
+        System.out.println("THE AMOUNT OF ELEMENTS IN THE DATABASE TIME TABLE: " + StoredData.getNumberOfRows("times"));
+        return data;
     }
-    //don't touch
 
+    //easy way to convert longs to ints;
+    private static int longToInt(long number) {
+        Long l = new Long(number);    //casting it into object type
+        int i = l != null ? l.intValue() : null;
+        return i;
+    }
+    //Next two functions used to caclulate the next caffine amount tick
+    private static double caffineTick(double caffineAmount) {
+        double halfLife = (5.7*timeMult); //in hours
+        double changeInLevels = -(Math.log(2) / halfLife) * caffineAmount;
 
+        double result = caffineAmount + changeInLevels;
+        return result;
+    }
+
+    private static double bloodTick(double Blood) {
+        caffineLevel = caffineTick(caffineLevel);
+        double CAFFINE_METABOLISM = 1/(2.5 * timeMult); //per hour
+        double CAFFINE_ABSORBTION = 1/(2.7 * timeMult); //per hour
+        double changeInBlood = (-CAFFINE_METABOLISM * Blood) + (CAFFINE_ABSORBTION * caffineLevel);
+
+        double result = Blood + changeInBlood;
+
+        return result;
+    }
     //info data
     public static void addInfo(int age, double weight, String name, String gender)
     {
         //add these to the database
     }
 
+
     //
     public static void addDrinktoDB(int drinkindex, long time)
+
     {
         //add drink to database
         //called when user decides that he/she wants to drink a specefic drink at the specefied time
@@ -84,4 +139,5 @@ public class database {
         list.add(4, "lemonade") ;
         return list;
     }
+    //////
 }

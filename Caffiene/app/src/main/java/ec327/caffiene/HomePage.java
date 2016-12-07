@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.database.sqlite.*;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
@@ -18,6 +19,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 
+
+
 public class HomePage extends AppCompatActivity {
     private GraphView graph;
     private DataPoint[] datapts;
@@ -27,10 +30,10 @@ public class HomePage extends AppCompatActivity {
     public boolean stopflag = false;
     int color = 0xC8E8DEDE;
     LineGraphSeries<DataPoint> nowseries;
+    SQLiteDatabase DataBase;
     private float hour;
     private float minutes;
     private float now;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +42,14 @@ public class HomePage extends AppCompatActivity {
         graph = (GraphView) findViewById(R.id.graph);
         graph.setTitle("CAFFIENE CONTENT (mg) vs. TIME (h)");
         graph.setTitleColor(color);
+
+        //create database
+
+        SQLiteDatabase DataBase = openOrCreateDatabase("coffeeData",MODE_PRIVATE,null);
+        StoredData.createTables(DataBase, "CaffineList","ConsumedCaffine");
+
         //plot data
-        datapts = database.getData();
+        datapts = database.getData(0,24);
         series = new LineGraphSeries<>(datapts);
         //make it pretty
         series.setColor(color);
@@ -101,6 +110,7 @@ public class HomePage extends AppCompatActivity {
         {
             Intent intent = new Intent(this, StartPage.class);
             startActivity(intent);
+            //PUT DATABASE CREATION HERE
         }
         add = new Thread(new updatePoint());
         add.start();
