@@ -30,10 +30,10 @@ public class HomePage extends AppCompatActivity {
     public boolean stopflag = false;
     int color = 0xC8E8DEDE;
     LineGraphSeries<DataPoint> nowseries;
-    float hour;
-    float minutes;
     SQLiteDatabase DataBase;
-
+    private float hour;
+    private float minutes;
+    private float now;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +61,16 @@ public class HomePage extends AppCompatActivity {
         port.setScrollable(true);
         port.setXAxisBoundsManual(true);
         port.setYAxisBoundsManual(true);
+        //set ranges
+        Date time = new Date();
+        Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
+        calendar.setTime(time);   // assigns calendar to given date
+        hour = calendar.get(Calendar.HOUR_OF_DAY);
+        minutes = calendar.get(Calendar.MINUTE);
+        now = hour + (minutes / 60);
+        port.setMinX(now - 4);
+        port.setMaxX(now + 4);
+        port.setMaxY(600);
         GridLabelRenderer rendrer = graph.getGridLabelRenderer();
         //setting titles and colors
         rendrer.setHorizontalAxisTitle("TIME (h)");
@@ -71,12 +81,27 @@ public class HomePage extends AppCompatActivity {
         rendrer.setVerticalLabelsColor(color);
         LineGraphSeries<DataPoint> lethal = new LineGraphSeries<DataPoint>(new DataPoint[]
                 {
-                        new DataPoint(0, 10),
-                        new DataPoint(24, 10)
+                        new DataPoint(0, 500),
+                        new DataPoint(24, 500)
                 });
+        LineGraphSeries<DataPoint> nervous = new LineGraphSeries<DataPoint>(new DataPoint[]
+                {
+                        new DataPoint(0, 400),
+                        new DataPoint(24, 400)
+                });
+        LineGraphSeries<DataPoint> energetic = new LineGraphSeries<DataPoint>(new DataPoint[]
+                {
+                        new DataPoint(0, 300),
+                        new DataPoint(24, 300)
+                });
+        //setting colors7
+        energetic.setColor(Color.YELLOW);
+        nervous.setColor(R.color.orange);
         lethal.setColor(Color.RED);
-        //graph lethal line
+        //graph the benchmanrks
         graph.addSeries(lethal);
+        graph.addSeries(nervous);
+        graph.addSeries(energetic);
         //graph the values in the database
         graph.addSeries(series);
         //check if user is new:
@@ -121,18 +146,12 @@ public class HomePage extends AppCompatActivity {
                     calendar.setTime(time);   // assigns calendar to given date
                     hour = calendar.get(Calendar.HOUR_OF_DAY);
                     minutes = calendar.get(Calendar.MINUTE);
-                    float now = hour + (minutes / 60);
-                    //reset ranges
-                    /*
-                    port.setMinX(now - 4);
-                    port.setMaxX(now + 4);
-                    port.setMaxY(12);
-                    */
+                    now = hour + (minutes / 60);
                     //set the now line
                     nowseries = new LineGraphSeries<>(new DataPoint[]
                             {
                                     new DataPoint(now, 0),
-                                    new DataPoint(now, 12)
+                                    new DataPoint(now, 600)
                             });
                     graph.addSeries(nowseries);
                     try
