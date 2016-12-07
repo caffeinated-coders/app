@@ -61,10 +61,13 @@ public class database {
 
             long outTime = (time/timeMult);
             System.out.println("Time: " + time + " Brain Caffine: " + caffineInBrain + " Caffine Levels: " + caffineLevel);
+            StoredData.addData(caffineInBrain,time);
             data[i] = new DataPoint(time, caffineInBrain);      //the current caffine level is the next one to be put into data
             caffineInBrain = bloodTick(caffineInBrain);         //incriment the caffine amount
             i++;
         }
+
+        System.out.println("THE AMOUNT OF ELEMENTS IN THE DATABASE TIME TABLE: " + StoredData.getNumberOfRows("times"));
         return data;
     }
 
@@ -136,4 +139,5 @@ public class database {
         list.add(4, "lemonade") ;
         return list;
     }
+    //////
 }

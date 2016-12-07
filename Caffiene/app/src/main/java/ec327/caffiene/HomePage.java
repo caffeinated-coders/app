@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.database.sqlite.*;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
@@ -16,6 +17,8 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
+
 
 
 public class HomePage extends AppCompatActivity {
@@ -29,6 +32,7 @@ public class HomePage extends AppCompatActivity {
     LineGraphSeries<DataPoint> nowseries;
     float hour;
     float minutes;
+    SQLiteDatabase DataBase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,12 @@ public class HomePage extends AppCompatActivity {
         graph = (GraphView) findViewById(R.id.graph);
         graph.setTitle("CAFFIENE CONTENT (mg) vs. TIME (h)");
         graph.setTitleColor(color);
+
+        //create database
+
+        SQLiteDatabase DataBase = openOrCreateDatabase("coffeeData",MODE_PRIVATE,null);
+        StoredData.createTables(DataBase, "CaffineList","ConsumedCaffine");
+
         //plot data
         datapts = database.getData(0,24);
         series = new LineGraphSeries<>(datapts);
@@ -75,6 +85,7 @@ public class HomePage extends AppCompatActivity {
         {
             Intent intent = new Intent(this, StartPage.class);
             startActivity(intent);
+            //PUT DATABASE CREATION HERE
         }
         add = new Thread(new updatePoint());
         add.start();
@@ -112,9 +123,11 @@ public class HomePage extends AppCompatActivity {
                     minutes = calendar.get(Calendar.MINUTE);
                     float now = hour + (minutes / 60);
                     //reset ranges
+                    /*
                     port.setMinX(now - 4);
                     port.setMaxX(now + 4);
                     port.setMaxY(12);
+                    */
                     //set the now line
                     nowseries = new LineGraphSeries<>(new DataPoint[]
                             {
