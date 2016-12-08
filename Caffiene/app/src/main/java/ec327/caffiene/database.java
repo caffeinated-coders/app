@@ -24,29 +24,12 @@ public class database {
         //check if user is new by checking if the database is already populated.
         return false;
     }
-    /*
-    public static DataPoint[] getData()
+
+    public static String getName()
     {
-        return new DataPoint[]
-                {//we will only be displaying the data for the current day.
-                        //PUT DATA POITNS HERE --Nehemiah
-                        new DataPoint(0, 100), //replace these numbers with actual x-y vals
-                        new DataPoint(1, 577), //x should range from 0-24 hrs
-                        new DataPoint(2, 34),
-                        new DataPoint(3, 233),
-                        new DataPoint(4, 60),
-                        new DataPoint(5, 134), //replace these numbers with actual x-y vals
-                        new DataPoint(16, 523), //x should range from 0-24 hrs
-                        new DataPoint(17, 334),
-                        new DataPoint(18, 234),
-                        new DataPoint(19, 64),
-                        new DataPoint(20, 134), //replace these numbers with actual x-y vals
-                        new DataPoint(21, 534), //x should range from 0-24 hrs
-                        new DataPoint(22, 334),
-                        new DataPoint(23, 234),
-                        new DataPoint(24, 63)
-                };
-    }*/
+        //returns name of the user to customize the graph
+        return "Trishita";
+    }
 
     public static DataPoint[] getData(long start, long end) {
 

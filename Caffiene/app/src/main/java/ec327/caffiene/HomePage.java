@@ -40,19 +40,17 @@ public class HomePage extends AppCompatActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_home_page);
         graph = (GraphView) findViewById(R.id.graph);
-        graph.setTitle("CAFFIENE CONTENT (mg) vs. TIME (h)");
+        graph.setTitle("Here's your graph, "+database.getName());
         graph.setTitleColor(color);
 
         //create database
 
         SQLiteDatabase DataBase = openOrCreateDatabase("coffeeData",MODE_PRIVATE,null);
-        StoredData.createTables(DataBase, "CaffineList","ConsumedCaffine");
+        StoredData.createTables(DataBase, "CaffineList","ConsumedCaffine"); //create database in if block below
 
-        //plot data
-        datapts = database.getData(0,24);
-        series = new LineGraphSeries<>(datapts);
-        //make it pretty
-        series.setColor(color);
+        //plotting data
+        Thread plotPoints = new Thread(new getPoints());
+        plotPoints.start();
         //make it scrollable and scalable
         port = graph.getViewport();
         port.setScalableY(true);
@@ -94,7 +92,7 @@ public class HomePage extends AppCompatActivity {
                         new DataPoint(0, 300),
                         new DataPoint(24, 300)
                 });
-        //setting colors7
+        //setting colors
         energetic.setColor(Color.YELLOW);
         nervous.setColor(R.color.orange);
         lethal.setColor(Color.RED);
@@ -102,8 +100,7 @@ public class HomePage extends AppCompatActivity {
         graph.addSeries(lethal);
         graph.addSeries(nervous);
         graph.addSeries(energetic);
-        //graph the values in the database
-        graph.addSeries(series);
+
         //check if user is new:
         boolean isNew = database.newUser();
         if (isNew) //if new, we navigate to StartPage to allow user to enter info.
@@ -165,6 +162,20 @@ public class HomePage extends AppCompatActivity {
                 }
             }
 
+        }
+    }
+
+    public class getPoints extends Thread
+    {
+        @Override
+        public void run()
+        {
+            datapts = database.getData(0,24);
+            series = new LineGraphSeries<>(datapts);
+            //make it pretty
+            series.setColor(color);
+            //graph the values in the database
+            graph.addSeries(series);
         }
     }
 }
