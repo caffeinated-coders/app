@@ -39,7 +39,8 @@ public class StoredData {
         //this creates the caffineconsumed table in the database. int index can be whatever number: it was used so that the function can be overrided
         myDB.execSQL("CREATE TABLE IF NOT EXISTS "
                 + caffineTaken+"(ID INT PRIMARY KEY, Name CHAR(50), Caffine INT, TimeConsumed FLOAT);");
-
+        StoredData.addDefaultCaffineList();
+        database.addDrinktoDB(6,HomePage.now);
         //"id" is the index value
     }
 
@@ -71,7 +72,7 @@ public class StoredData {
     }*/
 
     //
-
+    //example function. never used.
     public static void returnRow(String TableName, int row) {
         /*retrieve data from database */
         Cursor c = myDB.rawQuery("SELECT * FROM " + TableName, null);
@@ -96,6 +97,7 @@ public class StoredData {
 
     }
 
+    //helper function: gets called through addDrinktoDB(int drinkindex, float time) in the database file
     public static void selectCaffine(int index, float time) {
 
         //I want this row from caffine list table
@@ -105,14 +107,11 @@ public class StoredData {
         Cursor c = myDB.rawQuery("SELECT * FROM " + caffineListTableName + " WHERE ROWID="+id+";", null);
         int Column1 = c.getColumnIndex("Name");
         int Column2 = c.getColumnIndex("caffineContent");
-
-        String drinkName = "";
-        int caffineAmount = 0;
         // Check if our result was valid.
         c.moveToFirst();
         int i = 0;
-        drinkName = c.getString(Column1);
-        caffineAmount = c.getInt(Column2);
+        String drinkName = c.getString(Column1);
+        int caffineAmount = c.getInt(Column2);
         /*
         if (c != null) {
             // Loop through all Results
@@ -132,15 +131,17 @@ public class StoredData {
         System.out.println(index + " -Just added: " + drinkName + " at time " + time + " into a table");
     }
 
+    //gets the number of rows in a table
+    //test the boundry conditions of this
     public static int getNumberOfRows(String table) {
         /*retrieve data from database */
         Cursor c = myDB.rawQuery("SELECT * FROM " + table, null);
         int i = 0;
         if (c != null) {
             // Loop through all Results
-            do {
-                i++;
-            } while (c.moveToNext());
+             while (c.moveToNext()) {
+                 i++;
+             }
         }
 
         return i;
@@ -172,30 +173,69 @@ public class StoredData {
     }
 
     public static String getName(int index) {
-        Cursor c = myDB.rawQuery("SELECT * FROM " + caffineListTableName, null);
-
+        index = index + 1;
+        int rows = getNumberOfRows(caffineListTableName);
+        if(index > rows) return "";
+        Cursor c = myDB.rawQuery("SELECT * FROM " + caffineListTableName + " WHERE ROWID="+index+";", null);
         int Column1 = c.getColumnIndex("Name");
-        //int Column2 = c.getColumnIndex("Field2");
-
-        // Check if our result was valid.
         c.moveToFirst();
+        return c.getString(Column1);
+        //int Column2 = c.getColumnIndex("Field2");
+    }
+
+    public static double getTime(int index) {
+        index = index + 1;
+        int rows = getNumberOfRows(caffineConsumedTableName);
+        if(index > rows) return 0;
+        Cursor c = myDB.rawQuery("SELECT * FROM " + caffineConsumedTableName + " WHERE ROWID="+index+";", null);
+        int Column1 = c.getColumnIndex("TimeConsumed");
+        c.moveToFirst();
+        return c.getFloat(Column1);
+        //Cursor c = myDB.rawQuery("SELECT * FROM " + caffineConsumedTableName, null);
+        /*c.moveToFirst();
         String Data = "";
         int i = 0;
         if (c != null) {
-            // Loop through all Results
             do {
-
-                //int Age = c.getInt(Column2);
                 if(i == index) {
-                    return c.getString(Column1);
+                    return c.getFloat(Column1);
                 }
                 i++;
             } while (c.moveToNext());
         }
-
-        return "Error";
+        return -1;*/
+    }
+    public static int getConsumedCaffine(int index) {
+        index = index + 1;
+        int rows = getNumberOfRows(caffineConsumedTableName);
+        if(index > rows) return 0;
+        Cursor c = myDB.rawQuery("SELECT * FROM " + caffineConsumedTableName + " WHERE ROWID="+index+";", null);
+        c.moveToFirst();
+        int Column1 = c.getColumnIndex("Caffine");
+        return c.getInt(Column1);
     }
 
+    public static double[] timeTable() {
+        int size = getNumberOfRows(caffineConsumedTableName);
+        double[] times = new double[size];
+
+        for(int i = 0; i < size; i++) {
+            double d = getTime(i);
+            d = Math.round(d * 10);
+            d = d/10;
+            times[i] = d;
+        }
+        return times;
+    }
+    public static int[] caffineTable() {
+        int size = getNumberOfRows(caffineConsumedTableName);
+        int[] times = new int[size];
+
+        for(int i = 0; i < size; i++) {
+            times[i] = getConsumedCaffine(i);
+        }
+        return times;
+    }
     public static void addDefaultCaffineList() {
 
         addData("Coffee", 100);

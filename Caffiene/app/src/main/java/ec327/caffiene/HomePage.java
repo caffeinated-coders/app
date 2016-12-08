@@ -33,7 +33,7 @@ public class HomePage extends AppCompatActivity {
     SQLiteDatabase DataBase;
     private float hour;
     private float minutes;
-    private static float now;                       //I made this static, please let me know if doing this is a problem -Nmd1
+    public static float now;                       //I made this static, please let me know if doing this is a problem -Nmd1 //change back to private when done testing
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +48,8 @@ public class HomePage extends AppCompatActivity {
         StoredData.createTables(DataBase, "CaffineList","ConsumedCaffine");
 
 
-        //DELETE ONCE APP IS UP AND RUNNING
-        StoredData.addDefaultCaffineList();
+
+
 
 
 
@@ -73,9 +73,8 @@ public class HomePage extends AppCompatActivity {
         hour = calendar.get(Calendar.HOUR_OF_DAY);
         minutes = calendar.get(Calendar.MINUTE);
         now = hour + (minutes / 60);
-        System.out.println("NOW: "+ now);
         //REMOVE LATER
-        database.addDrinktoDB(6,(int)now);
+
 
         port.setMinX(now - 4);
         port.setMaxX(now + 4);

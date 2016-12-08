@@ -2,6 +2,7 @@ package ec327.caffiene;
 
 
 import android.util.Log;
+import android.view.View;
 
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -18,7 +19,7 @@ public class database {
     private static final String TAG = "threadDebug"; //remove later!
 
     //global caffine variables
-    private static double caffineLevel = 500;
+    private static double caffineLevel = 0;
     private static double caffineInBrain = 0;
 
     private static int timeMult = 60; //1 for hours, 60 for minutes, 3600 for seconds.
@@ -36,16 +37,28 @@ public class database {
         DataPoint[] data = new DataPoint[size];
         //x is time, y is caffine amount
 
-        //get times that will be used for
+        //get times where the graph will need to be updated:
+        double[] times = StoredData.timeTable();
+        int[] addCaff = StoredData.caffineTable();
+        int nestedsize = times.length;
+        //Multiday problem: set a day bit to true if previous elements are less than 24 hours
+        //or have an int instead and delete caffine data after five days. It's not like the user is going to drink thousands of cups of coffee
+        //I hope
+
         int i = 0;
         for (double time = start * timeMult; time < end * timeMult; time++) {
 
             double bout = Math.round(caffineInBrain * 100.0) / 100.0;
             double cafout = Math.round(caffineLevel * 100.0) / 100.0;
 
-            if(time == (10*timeMult)) {
-                caffineLevel = caffineLevel + 500;
+            //check to see if we need to add more caffine on this cycle
+            //Love this code such elegance would rate 9.2/10
+            for(int j = 0; j < nestedsize; j++) {
+                if(time == times[j]) {
+                    caffineLevel = caffineLevel + addCaff[j];
+                }
             }
+
             double timeM = timeMult;
             double ti = time;
 
@@ -56,10 +69,8 @@ public class database {
             i++;
         }
 
-        System.out.println("First element of caffine list table: " + StoredData.getName(0));
-
         //reset
-        caffineLevel = 500;
+        caffineLevel = 0;
         caffineInBrain = 0;
         return data;
     }
@@ -102,10 +113,8 @@ public class database {
         //add drink to database
         //called when user decides that he/she wants to drink a specefic drink at the specefied time
         //float time = HomePage.getTime();
-        StoredData.selectCaffine(drinkindex, time);
+        StoredData.selectCaffine(drinkindex, time * timeMult);
         //////update the graph////////////////////
-        DataPoint[] datapts = database.getData(0,24);
-        HomePage.series = new LineGraphSeries<>(datapts);
     }
 
     public static void matchQuery(String query) //this is called when the user is searching our database for a drink to add.
@@ -131,11 +140,10 @@ public class database {
         numDrinks = StoredData.getNumberOfRows(StoredData.caffineListTableName); //the number of drinks in the database
         //return all the drink names in the database as an arrayList of strings IN ALPHABETICAL ORDER!
         ArrayList<String> list =  new ArrayList<String>(numDrinks);
-        list.add(0, "coke");
-        list.add(1, "coffee");
-        list.add(2, "tea");
-        list.add(3, "fanta");
-        list.add(4, "lemonade");
+        int size =StoredData.getNumberOfRows(StoredData.caffineListTableName);
+        for(int i = 0; i < size; i++) {
+            list.add(i, StoredData.getName(i));
+        }
         return list;
     }
     //////

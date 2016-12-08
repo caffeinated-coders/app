@@ -96,17 +96,19 @@ public class AddDrink extends AppCompatActivity {
             EditText timeview = (EditText) findViewById(R.id.time);
             try
             {
-                Date today = new Date();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-                Date timed = dateFormat.parse(timeview.getText().toString());
+                //Date today = new Date();
+                //SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+                //Date timed = dateFormat.parse(timeview.getText().toString());
                 //time = timeparsed.getTime();
 
                  //as time is in milliseconds.
+                //find time now
+                Date timed = new Date();
                 Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
                 calendar.setTime(timed);   // assigns calendar to given date
                 float hour = calendar.get(Calendar.HOUR_OF_DAY);
                 float minutes = calendar.get(Calendar.MINUTE);
-                time = hour + (minutes / 60);
+                time = hour + (minutes / 60) +  Float.parseFloat(timeview.getText().toString());
 
             }
             catch (Exception p)
@@ -117,7 +119,6 @@ public class AddDrink extends AppCompatActivity {
             }
         }
 
-        System.out.println("TIME TO ADD DRINK: "+ time);
         database.addDrinktoDB(drinkindex,time);
         Intent intent = new Intent(getApplicationContext(),HomePage.class);
         startActivity(intent);
