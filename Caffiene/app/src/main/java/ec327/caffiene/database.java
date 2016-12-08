@@ -1,8 +1,10 @@
 package ec327.caffiene;
 
+
 import android.util.Log;
 
 import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
 
@@ -10,6 +12,7 @@ import java.util.ArrayList;
  * Created by trishita on 11/27/2016.
  */
 public class database {
+
     public static int numDrinks;
     public static int counter = 0; //DELETE WHEN YOU IMPLEMENT getPoint function!
     private static final String TAG = "threadDebug"; //remove later!
@@ -18,56 +21,46 @@ public class database {
     private static double caffineLevel = 500;
     private static double caffineInBrain = 0;
 
-    private static int timeMult = 1; //1 for hours, 60 for minutes, 3600 for seconds.
+    private static int timeMult = 60; //1 for hours, 60 for minutes, 3600 for seconds.
     public static boolean newUser()
     {
         //check if user is new by checking if the database is already populated.
         return false;
     }
-    /*
-    public static DataPoint[] getData()
-    {
-        return new DataPoint[]
-                {//we will only be displaying the data for the current day.
-                        //PUT DATA POITNS HERE --Nehemiah
-                        new DataPoint(0, 100), //replace these numbers with actual x-y vals
-                        new DataPoint(1, 577), //x should range from 0-24 hrs
-                        new DataPoint(2, 34),
-                        new DataPoint(3, 233),
-                        new DataPoint(4, 60),
-                        new DataPoint(5, 134), //replace these numbers with actual x-y vals
-                        new DataPoint(16, 523), //x should range from 0-24 hrs
-                        new DataPoint(17, 334),
-                        new DataPoint(18, 234),
-                        new DataPoint(19, 64),
-                        new DataPoint(20, 134), //replace these numbers with actual x-y vals
-                        new DataPoint(21, 534), //x should range from 0-24 hrs
-                        new DataPoint(22, 334),
-                        new DataPoint(23, 234),
-                        new DataPoint(24, 63)
-                };
-    }*/
 
-    public static DataPoint[] getData(long start, long end) {
 
+    public static DataPoint[] getData(double start, double end) {
+        //200, 5
         //int iterations = 24;  //unneeded
-        int size = longToInt(end - start) * timeMult;
+        int size = (int)(end - start) * timeMult;
         DataPoint[] data = new DataPoint[size];
         //x is time, y is caffine amount
+
+        //get times that will be used for
         int i = 0;
-        for (long time = start * timeMult; time < end * timeMult; time++) {
+        for (double time = start * timeMult; time < end * timeMult; time++) {
+
             double bout = Math.round(caffineInBrain * 100.0) / 100.0;
             double cafout = Math.round(caffineLevel * 100.0) / 100.0;
 
-            long outTime = (time/timeMult);
-            System.out.println("Time: " + time + " Brain Caffine: " + caffineInBrain + " Caffine Levels: " + caffineLevel);
-            StoredData.addData(caffineInBrain,time);
-            data[i] = new DataPoint(time, caffineInBrain);      //the current caffine level is the next one to be put into data
+            if(time == (10*timeMult)) {
+                caffineLevel = caffineLevel + 500;
+            }
+            double timeM = timeMult;
+            double ti = time;
+
+            double outTime = ti / timeM;
+            //System.out.println("Time: "+ outTime +" Brain Caffine: " + caffineInBrain + " Caffine Levels: " + caffineLevel);
+            data[i] = new DataPoint(outTime, caffineInBrain);      //the current caffine level is the next one to be put into data
             caffineInBrain = bloodTick(caffineInBrain);         //incriment the caffine amount
             i++;
         }
 
-        System.out.println("THE AMOUNT OF ELEMENTS IN THE DATABASE TIME TABLE: " + StoredData.getNumberOfRows("times"));
+        System.out.println("First element of caffine list table: " + StoredData.getName(0));
+
+        //reset
+        caffineLevel = 500;
+        caffineInBrain = 0;
         return data;
     }
 
@@ -99,16 +92,20 @@ public class database {
     //info data
     public static void addInfo(int age, double weight, String name, String gender)
     {
-        //add these to the database
+        //add this data to a new table. Will ultimately never be used.
     }
 
 
-    //
-    public static void addDrinktoDB(int drinkindex, long time)
-
+    //The function that gets called when a User wants to drink a paticular drink
+    public static void addDrinktoDB(int drinkindex, float time)
     {
         //add drink to database
         //called when user decides that he/she wants to drink a specefic drink at the specefied time
+        //float time = HomePage.getTime();
+        StoredData.selectCaffine(drinkindex, time);
+        //////update the graph////////////////////
+        DataPoint[] datapts = database.getData(0,24);
+        HomePage.series = new LineGraphSeries<>(datapts);
     }
 
     public static void matchQuery(String query) //this is called when the user is searching our database for a drink to add.
@@ -121,22 +118,24 @@ public class database {
         //NOTE: THE ARRAYLIST YOU HAVE TO MODIFY IS AddDrink.matches
     }
 
+    //insert a new choice in a list of drink choies.
     public static void addNewDrink(String drink,float caffiene)
     {
-        //adds this custom drink to the database
+        int caff = (int)caffiene;
+        StoredData.addData(drink, caff);
     }
 
     //this is all of the drinks.
     public static ArrayList<String> allDrinks()
     {
-        numDrinks = 5; //the number of drinks in the database
+        numDrinks = StoredData.getNumberOfRows(StoredData.caffineListTableName); //the number of drinks in the database
         //return all the drink names in the database as an arrayList of strings IN ALPHABETICAL ORDER!
         ArrayList<String> list =  new ArrayList<String>(numDrinks);
-        list.add(0, "coke") ;
-        list.add(1, "coffee") ;
-        list.add(2, "tea") ;
-        list.add(3, "fanta") ;
-        list.add(4, "lemonade") ;
+        list.add(0, "coke");
+        list.add(1, "coffee");
+        list.add(2, "tea");
+        list.add(3, "fanta");
+        list.add(4, "lemonade");
         return list;
     }
     //////
