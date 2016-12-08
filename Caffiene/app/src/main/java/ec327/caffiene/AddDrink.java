@@ -25,7 +25,7 @@ public class AddDrink extends AppCompatActivity {
     public static ArrayList<String> matches;
     private static LinearLayout sublayout;
     public static EditText searchbar;
-    public ArrayList<String> alldrinks;
+    public static ArrayList<String> alldrinks;                  //made this static too
     public boolean stopflag = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
