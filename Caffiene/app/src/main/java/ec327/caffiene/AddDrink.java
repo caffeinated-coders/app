@@ -96,7 +96,7 @@ public class AddDrink extends AppCompatActivity {
             }
             catch (Exception p)
             {
-                Toast toast = Toast.makeText(getApplicationContext(), "Please enter a number",Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(getApplicationContext(), "Please enter a valid time",Toast.LENGTH_LONG);
                 toast.show();
                 return;
             }
