@@ -24,7 +24,7 @@ import java.util.GregorianCalendar;
 public class HomePage extends AppCompatActivity {
     private GraphView graph;
     private DataPoint[] datapts;
-    private LineGraphSeries<DataPoint> series;
+    public static LineGraphSeries<DataPoint> series;     //I made this public (instead of private) AND static so I could redraw the graph. -nmd1
     private Thread add;
     private Viewport port;
     public boolean stopflag = false;
@@ -33,7 +33,7 @@ public class HomePage extends AppCompatActivity {
     SQLiteDatabase DataBase;
     private float hour;
     private float minutes;
-    private float now;
+    public static float now;                       //I made this static, please let me know if doing this is a problem -Nmd1 //change back to private when done testing
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,14 +43,18 @@ public class HomePage extends AppCompatActivity {
         graph.setTitle("Here's your graph, "+database.getName());
         graph.setTitleColor(color);
 
-        //create database
-
+        //create database- Move to on create once App is up and running
         SQLiteDatabase DataBase = openOrCreateDatabase("coffeeData",MODE_PRIVATE,null);
         StoredData.createTables(DataBase, "CaffineList","ConsumedCaffine"); //create database in if block below
 
+
+
+
+        
         //plotting data
         Thread plotPoints = new Thread(new getPoints());
         plotPoints.start();
+
         //make it scrollable and scalable
         port = graph.getViewport();
         port.setScalableY(true);
@@ -66,6 +70,9 @@ public class HomePage extends AppCompatActivity {
         hour = calendar.get(Calendar.HOUR_OF_DAY);
         minutes = calendar.get(Calendar.MINUTE);
         now = hour + (minutes / 60);
+        //REMOVE LATER
+
+
         port.setMinX(now - 4);
         port.setMaxX(now + 4);
         port.setMaxY(600);
@@ -108,6 +115,16 @@ public class HomePage extends AppCompatActivity {
             Intent intent = new Intent(this, StartPage.class);
             startActivity(intent);
             //PUT DATABASE CREATION HERE
+
+
+            StoredData.addDefaultCaffineList();
+
+
+
+
+
+
+
         }
         add = new Thread(new updatePoint());
         add.start();
