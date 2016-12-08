@@ -101,9 +101,11 @@ public class AddDrink extends AppCompatActivity {
                 return;
             }
         }
+
         database.addDrinktoDB(drinkindex,time);
         Intent intent = new Intent(getApplicationContext(),HomePage.class);
         startActivity(intent);
+
     }
 
     public static String getQuery()
