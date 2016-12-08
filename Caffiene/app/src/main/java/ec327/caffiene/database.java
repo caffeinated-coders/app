@@ -29,6 +29,12 @@ public class database {
         return false;
     }
 
+    public static String getName()
+    {
+        //returns name of the user to customize the graph
+        return "Trishita";
+    }
+
     //gets data from the database table of caffeine items drunk
     //and plots them on the chart, based off of the time they were drunk.
     public static DataPoint[] getData(double start, double end) {

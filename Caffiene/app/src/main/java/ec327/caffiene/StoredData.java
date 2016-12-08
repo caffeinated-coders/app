@@ -21,6 +21,7 @@ public class StoredData {
     public static String caffineListTableName;
     public static String caffineConsumedTableName;
     public static SQLiteDatabase myDB;
+
     //creates the tables that store data for this program. This function should only be called once.
     //Test Input -->(coffeeData, "CoffeeListTable", "CoffeeConsumedTable")
     public static void createTables(SQLiteDatabase inputDataBase, String caffineOffered, String caffineTaken) {
@@ -61,18 +62,9 @@ public class StoredData {
                 + " VALUES ('"+name+"', "+CaffineAmount+", "+timeOfConsumtion+");");
     }
 
-    //TEMPERARY ADD DATA THING
-    /*
-    public static void addData(double caffine, boolean time) {
-        /* Insert data to a Table
-        myDB.execSQL("INSERT INTO "
-                + "times"
-                + "(Caffine, Time)"
-                + " VALUES ("+caffine+", "+time+");");
-    }*/
 
     //
-    //example function. never used.
+    //example function. never used. No need to test.
     public static void returnRow(String TableName, int row) {
         /*retrieve data from database */
         Cursor c = myDB.rawQuery("SELECT * FROM " + TableName, null);
@@ -147,6 +139,10 @@ public class StoredData {
         return i;
     }
 
+
+    //should print the output of each table.
+    //more of a legacy debugging function. not needed.
+    //also never got it to work after discovering AVD
     public static void print(int i) {
         String name = "times";
 //
@@ -172,6 +168,8 @@ public class StoredData {
 
     }
 
+    //gets the name of a caffeine item in the caffine items to drink table
+    //0 should give you "coffee" 6 should give you "Test"
     public static String getName(int index) {
         index = index + 1;
         int rows = getNumberOfRows(caffineListTableName);
@@ -183,6 +181,8 @@ public class StoredData {
         //int Column2 = c.getColumnIndex("Field2");
     }
 
+    //returns the time at which an item was drunk.
+    //index referrs to a position in the consumed caffine table
     public static double getTime(int index) {
         index = index + 1;
         int rows = getNumberOfRows(caffineConsumedTableName);
@@ -205,6 +205,9 @@ public class StoredData {
         }
         return -1;*/
     }
+
+    //returns the caffine amount of an item that was drunk.
+    //index refers to a position in the consumed caffine table
     public static int getConsumedCaffine(int index) {
         index = index + 1;
         int rows = getNumberOfRows(caffineConsumedTableName);
@@ -215,6 +218,8 @@ public class StoredData {
         return c.getInt(Column1);
     }
 
+    //compiles a list of times at which caffine was consumed
+    //should basically output a column in the consumed database table
     public static double[] timeTable() {
         int size = getNumberOfRows(caffineConsumedTableName);
         double[] times = new double[size];
@@ -227,6 +232,9 @@ public class StoredData {
         }
         return times;
     }
+
+    //compiles a list of caffine amounts that was consumed
+    //should basically output a column in the consumed database table
     public static int[] caffineTable() {
         int size = getNumberOfRows(caffineConsumedTableName);
         int[] times = new int[size];
@@ -236,6 +244,8 @@ public class StoredData {
         }
         return times;
     }
+
+    //sets the list of default caffine values
     public static void addDefaultCaffineList() {
 
         addData("Coffee", 100);
