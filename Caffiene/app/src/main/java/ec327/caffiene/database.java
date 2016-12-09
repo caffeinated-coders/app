@@ -1,8 +1,11 @@
 package ec327.caffiene;
 
+
 import android.util.Log;
+import android.view.View;
 
 import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
 
@@ -10,15 +13,16 @@ import java.util.ArrayList;
  * Created by trishita on 11/27/2016.
  */
 public class database {
+
     public static int numDrinks;
     public static int counter = 0; //DELETE WHEN YOU IMPLEMENT getPoint function!
     private static final String TAG = "threadDebug"; //remove later!
 
     //global caffine variables
-    private static double caffineLevel = 500;
+    private static double caffineLevel = 0;
     private static double caffineInBrain = 0;
 
-    private static int timeMult = 1; //1 for hours, 60 for minutes, 3600 for seconds.
+    private static int timeMult = 60; //1 for hours, 60 for minutes, 3600 for seconds.
     public static boolean newUser()
     {
         //check if user is new by checking if the database is already populated.
@@ -31,35 +35,61 @@ public class database {
         return "Trishita";
     }
 
-    public static DataPoint[] getData(long start, long end) {
-
+    //gets data from the database table of caffeine items drunk
+    //and plots them on the chart, based off of the time they were drunk.
+    public static DataPoint[] getData(double start, double end) {
+        //200, 5
         //int iterations = 24;  //unneeded
-        int size = longToInt(end - start) * timeMult;
+        int size = (int)(end - start) * timeMult;
         DataPoint[] data = new DataPoint[size];
         //x is time, y is caffine amount
+
+        //get times where the graph will need to be updated:
+        double[] times = StoredData.timeTable();
+        int[] addCaff = StoredData.caffineTable();
+        int nestedsize = times.length;
+        //Multiday problem: set a day bit to true if previous elements are less than 24 hours
+        //or have an int instead and delete caffine data after five days. It's not like the user is going to drink thousands of cups of coffee
+        //I hope
+
         int i = 0;
-        for (long time = start * timeMult; time < end * timeMult; time++) {
+        for (double time = start * timeMult; time < end * timeMult; time++) {
+
             double bout = Math.round(caffineInBrain * 100.0) / 100.0;
             double cafout = Math.round(caffineLevel * 100.0) / 100.0;
 
-            long outTime = (time/timeMult);
-            System.out.println("Time: " + time + " Brain Caffine: " + caffineInBrain + " Caffine Levels: " + caffineLevel);
-            StoredData.addData(caffineInBrain,time);
-            data[i] = new DataPoint(time, caffineInBrain);      //the current caffine level is the next one to be put into data
+            //check to see if we need to add more caffine on this cycle
+            //Love this code such elegance would rate 9.2/10
+            for(int j = 0; j < nestedsize; j++) {
+                if(time == times[j]) {
+                    caffineLevel = caffineLevel + addCaff[j];
+                }
+            }
+
+            double timeM = timeMult;
+            double ti = time;
+
+            double outTime = ti / timeM;
+            //System.out.println("Time: "+ outTime +" Brain Caffine: " + caffineInBrain + " Caffine Levels: " + caffineLevel);
+            data[i] = new DataPoint(outTime, caffineInBrain);      //the current caffine level is the next one to be put into data
             caffineInBrain = bloodTick(caffineInBrain);         //incriment the caffine amount
             i++;
         }
 
-        System.out.println("THE AMOUNT OF ELEMENTS IN THE DATABASE TIME TABLE: " + StoredData.getNumberOfRows("times"));
+        //reset
+        caffineLevel = 0;
+        caffineInBrain = 0;
         return data;
     }
 
     //easy way to convert longs to ints;
+    //not really used anymore
     private static int longToInt(long number) {
         Long l = new Long(number);    //casting it into object type
         int i = l != null ? l.intValue() : null;
         return i;
     }
+
     //Next two functions used to caclulate the next caffine amount tick
     private static double caffineTick(double caffineAmount) {
         double halfLife = (5.7*timeMult); //in hours
@@ -68,7 +98,7 @@ public class database {
         double result = caffineAmount + changeInLevels;
         return result;
     }
-
+    //The other function that's used to caclulate the next caffine amount tick
     private static double bloodTick(double Blood) {
         caffineLevel = caffineTick(caffineLevel);
         double CAFFINE_METABOLISM = 1/(2.5 * timeMult); //per hour
@@ -82,18 +112,22 @@ public class database {
     //info data
     public static void addInfo(int age, double weight, String name, String gender)
     {
-        //add these to the database
+        //add this data to a new table. Will ultimately never be used.
     }
 
 
-    //
-    public static void addDrinktoDB(int drinkindex, long time)
-
+    //The function that gets called when a User wants to drink a paticular drink
+    //input 6,2.5 to drink the test case at time 2hr and 20 minutes
+    public static void addDrinktoDB(int drinkindex, float time)
     {
         //add drink to database
         //called when user decides that he/she wants to drink a specefic drink at the specefied time
+        //float time = HomePage.getTime();
+        StoredData.selectCaffine(drinkindex, time * timeMult);
+        //////update the graph////////////////////
     }
 
+    //Not implimented yet
     public static void matchQuery(String query) //this is called when the user is searching our database for a drink to add.
     {//We will implement a dynamic search, this function should remove all strings from the static arraylist in AddDrink.class
         //that don't don't have query as a substring
@@ -104,22 +138,26 @@ public class database {
         //NOTE: THE ARRAYLIST YOU HAVE TO MODIFY IS AddDrink.matches
     }
 
+    //insert a new choice in a list of drink choices.
+    //currently not showing new choices. I believe its due to
     public static void addNewDrink(String drink,float caffiene)
     {
-        //adds this custom drink to the database
+        int caff = (int)caffiene;
+        StoredData.addData(drink, caff);
+        AddDrink.alldrinks = allDrinks();
     }
 
     //this is all of the drinks.
+    //test by tapping 'add drink'
     public static ArrayList<String> allDrinks()
     {
-        numDrinks = 5; //the number of drinks in the database
+        numDrinks = StoredData.getNumberOfRows(StoredData.caffineListTableName); //the number of drinks in the database
         //return all the drink names in the database as an arrayList of strings IN ALPHABETICAL ORDER!
         ArrayList<String> list =  new ArrayList<String>(numDrinks);
-        list.add(0, "coke") ;
-        list.add(1, "coffee") ;
-        list.add(2, "tea") ;
-        list.add(3, "fanta") ;
-        list.add(4, "lemonade") ;
+        int size =StoredData.getNumberOfRows(StoredData.caffineListTableName);
+        for(int i = 0; i < size; i++) {
+            list.add(i, StoredData.getName(i));
+        }
         return list;
     }
     //////

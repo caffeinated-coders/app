@@ -16,14 +16,16 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class AddDrink extends AppCompatActivity {
     private Thread searchresults;
     public static ArrayList<String> matches;
     private static LinearLayout sublayout;
     public static EditText searchbar;
-    public ArrayList<String> alldrinks;
+    public static ArrayList<String> alldrinks;                  //made this static too
     public boolean stopflag = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +58,7 @@ public class AddDrink extends AppCompatActivity {
     {
         int numresults = sublayout.getChildCount();
         String drink = "unchecked";
-        long time;
+        float time;
         for (int i = 0; i < numresults; i++)
         {
             ToggleButton child = (ToggleButton) sublayout.getChildAt(i);
@@ -80,18 +82,33 @@ public class AddDrink extends AppCompatActivity {
 
         if (drinknowbutton.isChecked())
         {
-            time = (new Date()).getTime()/1000;
+            //time = (new Date()).getTime()/1000; //this "time" didn't corrolate with the time in other files
+            //time = (time / (60 * 60 * 1000));  //this doesnt work
+            Date timed = new Date();
+            Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
+            calendar.setTime(timed);   // assigns calendar to given date
+            float hour = calendar.get(Calendar.HOUR_OF_DAY);
+            float minutes = calendar.get(Calendar.MINUTE);
+            time = hour + (minutes / 60);
         }
         else
         {
             EditText timeview = (EditText) findViewById(R.id.time);
             try
             {
-                Date today = new Date();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-                Date timeparsed = dateFormat.parse(timeview.getText().toString());
-                time = timeparsed.getTime();
+                //Date today = new Date();
+                //SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+                //Date timed = dateFormat.parse(timeview.getText().toString());
+                //time = timeparsed.getTime();
+
                  //as time is in milliseconds.
+                //find time now
+                Date timed = new Date();
+                Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
+                calendar.setTime(timed);   // assigns calendar to given date
+                float hour = calendar.get(Calendar.HOUR_OF_DAY);
+                float minutes = calendar.get(Calendar.MINUTE);
+                time = hour + (minutes / 60) +  Float.parseFloat(timeview.getText().toString());
 
             }
             catch (Exception p)
