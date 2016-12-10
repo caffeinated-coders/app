@@ -19,9 +19,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".StartPage" />
-        <activity android:name=".AddDrink" />
-        <activity android:name=".AddCustom"></activity>
+        <activity
+            android:name=".StartPage"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AddDrink"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AddCustom"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Instructions"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

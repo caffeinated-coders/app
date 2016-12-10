@@ -30,6 +30,9 @@ public class AddCustom extends AppCompatActivity {
             //go to homepage
             Intent intent = new Intent(getApplicationContext(),HomePage.class);
             startActivity(intent);
+
+            Toast toast = Toast.makeText(getApplicationContext(), "Drink Added!",Toast.LENGTH_SHORT);
+            toast.show();
         }
         catch (NumberFormatException e)
         {
