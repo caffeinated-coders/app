@@ -22,6 +22,7 @@
         <activity android:name=".StartPage" />
         <activity android:name=".AddDrink" />
         <activity android:name=".AddCustom"></activity>
+        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     </application>
 
 </manifest>

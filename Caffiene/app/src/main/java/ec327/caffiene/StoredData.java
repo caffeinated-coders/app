@@ -36,10 +36,10 @@ public class StoredData {
 
 
         myDB.execSQL("CREATE TABLE IF NOT EXISTS "
-                + caffineOffered+"(ID INT PRIMARY KEY, Name CHAR(50), caffineContent INT);");
+                + caffineOffered+"(ID INTEGER PRIMARY KEY AUTOINCREMENT, Name CHAR(50), caffineContent INT);");
         //this creates the caffineconsumed table in the database. int index can be whatever number: it was used so that the function can be overrided
         myDB.execSQL("CREATE TABLE IF NOT EXISTS "
-                + caffineTaken+"(ID INT PRIMARY KEY, Name CHAR(50), Caffine INT, TimeConsumed FLOAT);");
+                + caffineTaken+"(ID INTEGER PRIMARY KEY AUTOINCREMENT, Name CHAR(50), Caffine INT, TimeConsumed FLOAT);");
         StoredData.addDefaultCaffineList();
         database.addDrinktoDB(6,HomePage.now);
         //"id" is the index value
@@ -95,8 +95,8 @@ public class StoredData {
         //I want this row from caffine list table
         /*retrieve data from database */
         //Cursor c = myDB.rawQuery("SELECT * FROM " + caffineListTableName, null);
-        int id = index  +1;
-        Cursor c = myDB.rawQuery("SELECT * FROM " + caffineListTableName + " WHERE ROWID="+id+";", null);
+        int id = index;//  +1;
+        Cursor c = myDB.rawQuery("SELECT * FROM " + caffineListTableName + " WHERE ID="+id+";", null);
         int Column1 = c.getColumnIndex("Name");
         int Column2 = c.getColumnIndex("caffineContent");
         // Check if our result was valid.
