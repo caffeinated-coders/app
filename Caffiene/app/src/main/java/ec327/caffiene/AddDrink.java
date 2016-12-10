@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 public class AddDrink extends AppCompatActivity {
     private Thread searchresults;
+    private TimePicker timeview;
     public static ArrayList<String> matches;
     private static LinearLayout sublayout;
     public static EditText searchbar;
@@ -30,6 +31,8 @@ public class AddDrink extends AppCompatActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_add_drink);
         searchbar = (EditText) findViewById(R.id.search_bar);
+        timeview = (TimePicker) findViewById(R.id.time);
+        timeview.setIs24HourView(true);
         searchresults = new Thread(new dynamicSearch());
         //matches initially contains all possible drinks
         alldrinks = database.allDrinks();
@@ -76,12 +79,10 @@ public class AddDrink extends AppCompatActivity {
         }
         int drinkindex = alldrinks.indexOf(drink);
 
-        TimePicker timeview = (TimePicker) findViewById(R.id.time);
         //Date today = new Date();
         //SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
         //Date timed = dateFormat.parse(timeview.getText().toString());
         //time = timeparsed.getTime();
-
          //as time is in milliseconds.
         //find time now
         int hour = timeview.getHour();
