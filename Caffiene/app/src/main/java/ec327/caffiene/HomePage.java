@@ -1,5 +1,6 @@
 package ec327.caffiene;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -8,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.database.sqlite.*;
-
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.Viewport;
@@ -18,7 +18,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-
+import static android.database.sqlite.SQLiteDatabase.OPEN_READWRITE;
+import static android.database.sqlite.SQLiteDatabase.openDatabase;
 
 
 public class HomePage extends AppCompatActivity {
@@ -42,18 +43,6 @@ public class HomePage extends AppCompatActivity {
         graph = (GraphView) findViewById(R.id.graph);
         graph.setTitle("Here's your graph, "+database.getName());
         graph.setTitleColor(color);
-
-        //create database- Move to on create once App is up and running
-        SQLiteDatabase DataBase = openOrCreateDatabase("coffeeData",MODE_PRIVATE,null);
-        StoredData.createTables(DataBase, "CaffineList","ConsumedCaffine"); //create database in if block below
-
-
-
-
-        
-        //plotting data
-        Thread plotPoints = new Thread(new getPoints());
-        plotPoints.start();
 
         //make it scrollable and scalable
         port = graph.getViewport();
@@ -94,38 +83,36 @@ public class HomePage extends AppCompatActivity {
                         new DataPoint(0, 400),
                         new DataPoint(24, 400)
                 });
-        LineGraphSeries<DataPoint> energetic = new LineGraphSeries<DataPoint>(new DataPoint[]
-                {
-                        new DataPoint(0, 300),
-                        new DataPoint(24, 300)
-                });
         //setting colors
-        energetic.setColor(Color.YELLOW);
-        nervous.setColor(R.color.orange);
+        nervous.setColor(Color.YELLOW);
         lethal.setColor(Color.RED);
         //graph the benchmanrks
         graph.addSeries(lethal);
         graph.addSeries(nervous);
-        graph.addSeries(energetic);
 
         //check if user is new:
-        boolean isNew = database.newUser();
-        if (isNew) //if new, we navigate to StartPage to allow user to enter info.
+        //boolean isNew = database.newUser();
+        boolean isNewUser = !getDatabasePath("coffeeData").exists();
+
+        if (isNewUser) //if new, we navigate to StartPage to allow user to enter info.
         {
+            //Create a new DB and populate it
+            DataBase = openOrCreateDatabase("coffeeData",MODE_PRIVATE,null);
+            StoredData.createTables(DataBase, "CaffineList","ConsumedCaffine");
+
             Intent intent = new Intent(this, StartPage.class);
             startActivity(intent);
-            //PUT DATABASE CREATION HERE
-
-
-            StoredData.addDefaultCaffineList();
-
-
-
-
-
-
-
+        } else {
+            DataBase = openOrCreateDatabase("coffeeData",MODE_PRIVATE,null);
+            StoredData.myDB = DataBase;
+            StoredData.caffineListTableName = "CaffineList";
+            StoredData.caffineConsumedTableName = "ConsumedCaffine";
         }
+
+        //plotting data
+        Thread plotPoints = new Thread(new getPoints());
+        plotPoints.start();
+
         add = new Thread(new updatePoint());
         add.start();
     }
@@ -141,6 +128,12 @@ public class HomePage extends AppCompatActivity {
     //callback function for the add button
     public void add(View view) {
         Intent intent = new Intent(this, AddDrink.class);
+        startActivity(intent);
+    }
+
+    public void instructions(View view)
+    {
+        Intent intent = new Intent(this,Instructions.class);
         startActivity(intent);
     }
 
@@ -170,7 +163,7 @@ public class HomePage extends AppCompatActivity {
                     graph.addSeries(nowseries);
                     try
                     {
-                        Thread.sleep(6000);
+                        Thread.sleep(60000);
                     } catch (InterruptedException ie) {
                         return;
                     }

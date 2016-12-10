@@ -83,7 +83,8 @@
             android:background="@color/button"
             android:layout_centerHorizontal="true"
             android:textColor="@color/white"
-            android:layout_margin="42dp" />
+            android:layout_margin="42dp"
+            android:clickable="true" />
 
 
 </RelativeLayout>

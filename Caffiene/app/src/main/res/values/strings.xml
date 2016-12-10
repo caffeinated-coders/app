@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Caffiene</string>
+    <string name="app_name">CafeTrack</string>
     <string name="action_settings">SETTINGS</string>
     <string name="choose_your_gender">GENDER</string>
     <string name="submit">SUBMIT</string>
@@ -14,8 +14,30 @@
     <string name="add_new_drink">ADD NEW DRINK!</string>
     <string name="search">SEARCH</string>
     <string name="drink_now">DRINK NOW</string>
+    <string name="instructions">HOW DO I USE THE APP?</string>
     <string-array name="gender">
         <item>Male</item>
         <item>Female</item>
     </string-array>
+    <string name="about">This app predicts your caffeine content for the next few hours depending on what you drink.
+        \n\nINSTRUCTIONS\n\n
+        1. Click on the ADD DRINK button on the Home Page\n\n
+        2. Select the drink you want, and the time you will drink it\n\n
+        3. Click on ADD MY DRINK\n\n
+        4. OR if you want to add a new drink that is not on the list, click on ADD CUSTOM DRINK
+            and add your drink to the list\n\n
+        Powered By: Caffeinated Coders\n\n
+        Andres Rojas\n
+        Anthony Byrne\n
+        Nehemiah Dures\n
+        Trishita Tiwari\n\n
+    </string>
+    <string name="copyright">\n\nCopyright &#169; 2016 Caffeinated Coders\n\n
+        Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
+        files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy,
+        modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software
+        is furnished to do so, subject to the following conditions:
+        The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+    </string>
+    <string name="gohome">GO TO HOMEPAGE</string>
 </resources>

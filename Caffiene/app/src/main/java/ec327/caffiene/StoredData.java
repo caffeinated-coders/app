@@ -4,15 +4,8 @@ package ec327.caffiene;
 /**
  * Created by nmd1 on 12/6/2016.
  */
-
-
-import android.content.pm.PackageInfo;
 import android.database.Cursor;
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
-import android.database.sqlite.SQLiteClosable;
-import android.nfc.Tag;
 import android.util.Log;
 
 
@@ -31,15 +24,14 @@ public class StoredData {
         caffineConsumedTableName = caffineTaken;
         myDB = inputDataBase;
         //DELETE TABLE DROP ONCE TESTING IS DONE
-        myDB.execSQL("DROP TABLE IF EXISTS "+caffineConsumedTableName+";");
-        myDB.execSQL("DROP TABLE IF EXISTS "+caffineListTableName+";");
-
+        //myDB.execSQL("DROP TABLE IF EXISTS "+caffineConsumedTableName+";");
+        //myDB.execSQL("DROP TABLE IF EXISTS "+caffineListTableName+";");
 
         myDB.execSQL("CREATE TABLE IF NOT EXISTS "
-                + caffineOffered+"(ID INT PRIMARY KEY, Name CHAR(50), caffineContent INT);");
+                + caffineOffered+"(ID INTEGER PRIMARY KEY AUTOINCREMENT, Name CHAR(50), caffineContent INT);");
         //this creates the caffineconsumed table in the database. int index can be whatever number: it was used so that the function can be overrided
         myDB.execSQL("CREATE TABLE IF NOT EXISTS "
-                + caffineTaken+"(ID INT PRIMARY KEY, Name CHAR(50), Caffine INT, TimeConsumed FLOAT);");
+                + caffineTaken+"(ID INTEGER PRIMARY KEY AUTOINCREMENT, Name CHAR(50), Caffine INT, TimeConsumed FLOAT);");
         StoredData.addDefaultCaffineList();
         database.addDrinktoDB(6,HomePage.now);
         //"id" is the index value
@@ -54,7 +46,7 @@ public class StoredData {
                 + " VALUES ('"+name+"', "+caffineContent+");");
     }
 
-    public static void addData(String name, int CaffineAmount, float timeOfConsumtion) {
+    public static void addData(String name, int CaffineAmount, double timeOfConsumtion) {
         /* Insert data to a Table*/
         myDB.execSQL("INSERT INTO "
                 + caffineConsumedTableName
@@ -90,13 +82,13 @@ public class StoredData {
     }
 
     //helper function: gets called through addDrinktoDB(int drinkindex, float time) in the database file
-    public static void selectCaffine(int index, float time) {
+    public static void selectCaffine(int index, double time) {
 
         //I want this row from caffine list table
         /*retrieve data from database */
         //Cursor c = myDB.rawQuery("SELECT * FROM " + caffineListTableName, null);
-        int id = index  +1;
-        Cursor c = myDB.rawQuery("SELECT * FROM " + caffineListTableName + " WHERE ROWID="+id+";", null);
+        int id = index + 1;
+        Cursor c = myDB.rawQuery("SELECT * FROM " + caffineListTableName + " WHERE ID="+id+";", null);
         int Column1 = c.getColumnIndex("Name");
         int Column2 = c.getColumnIndex("caffineContent");
         // Check if our result was valid.
@@ -221,7 +213,7 @@ public class StoredData {
     //compiles a list of times at which caffine was consumed
     //should basically output a column in the consumed database table
     public static double[] timeTable() {
-        int size = getNumberOfRows(caffineConsumedTableName);
+        int size = getNumberOfRows(caffineConsumedTableName.toString());
         double[] times = new double[size];
 
         for(int i = 0; i < size; i++) {
