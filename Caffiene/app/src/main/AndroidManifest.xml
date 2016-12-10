@@ -23,6 +23,19 @@
         <activity android:name=".AddDrink" />
         <activity android:name=".AddCustom"></activity>
         <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+        <activity
+            android:name=".StartPage"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AddDrink"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AddCustom"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Instructions"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

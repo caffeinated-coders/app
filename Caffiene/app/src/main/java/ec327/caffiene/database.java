@@ -118,7 +118,7 @@ public class database {
 
     //The function that gets called when a User wants to drink a paticular drink
     //input 6,2.5 to drink the test case at time 2hr and 20 minutes
-    public static void addDrinktoDB(int drinkindex, float time)
+    public static void addDrinktoDB(int drinkindex, double time)
     {
         //add drink to database
         //called when user decides that he/she wants to drink a specefic drink at the specefied time

@@ -46,7 +46,19 @@
         android:layout_marginBottom="60dp"
         android:background="@color/button"
         android:textColor="@color/white"
-        android:layout_margin="42dp" />
+        android:layout_margin="42dp"
+        android:clickable="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Add Your Own Drink"
+        android:id="@+id/textView4"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
+        android:layout_marginTop="20dp" />
 
 
 </RelativeLayout>

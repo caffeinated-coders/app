@@ -17,6 +17,16 @@
     tools:context="ec327.caffiene.AddDrink"
     android:background="@drawable/background">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Add A New Drink"
+        android:id="@+id/textView3"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/white"
+        android:layout_marginTop="20dp" />
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,24 +45,17 @@
 
     </LinearLayout>
 
-    <EditText
-        android:layout_width="match_parent"
+    <TimePicker
+        android:layout_width="347dp"
         android:layout_height="wrap_content"
-        android:inputType="time"
-        android:ems="10"
         android:id="@+id/time"
         android:hint="@string/time"
-        android:textColorHint="@color/white"
-        android:textColor="@color/white"
-        android:layout_margin="42dp" />
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/drink_now"
-        android:id="@+id/drink_now"
-        android:layout_gravity="center_horizontal"
-        android:textColor="@color/white" />
+        android:layout_marginEnd="42dp"
+        android:timePickerMode="spinner"
+        android:textAlignment="center"
+        android:nestedScrollingEnabled="false"
+        android:numbersBackgroundColor="@color/button"
+        android:layout_marginTop="42dp" />
 
     <Button
         android:layout_width="match_parent"
@@ -63,7 +66,10 @@
         android:onClick="addDrink"
         android:layout_gravity="center_horizontal"
         android:textColor="@color/white"
-        android:layout_margin="42dp" />
+        android:layout_marginLeft="42dp"
+        android:layout_marginRight="42dp"
+        android:layout_marginTop="42dp"
+        android:clickable="true" />
 
 
     <TextView
@@ -74,7 +80,8 @@
         android:id="@+id/or"
         android:textAlignment="center"
         android:enabled="true"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:layout_marginTop="42dp" />
 
     <Button
         android:layout_width="match_parent"
@@ -85,7 +92,8 @@
         android:background="@color/button"
         android:layout_gravity="center_horizontal"
         android:textColor="@color/white"
-        android:layout_margin="42dp" />
+        android:layout_margin="42dp"
+        android:clickable="true" />
 
 
 </LinearLayout>
