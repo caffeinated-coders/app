@@ -1,8 +1,8 @@
 package ec327.caffiene;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -10,34 +10,44 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.database.sqlite.*;
+
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import static android.database.sqlite.SQLiteDatabase.OPEN_READWRITE;
-import static android.database.sqlite.SQLiteDatabase.openDatabase;
-
-
+/**
+ * "Main class" of the app. Mainly handles displaying the graph and action buttons. Landing page
+ * for returning users.
+ *
+ * @author Trishita Tiwari
+ * @version 1.0
+ */
 public class HomePage extends AppCompatActivity {
     private GraphView graph;
     private DataPoint[] datapts;
-    public static LineGraphSeries<DataPoint> series;     //I made this public (instead of private) AND static so I could redraw the graph. -nmd1
+    public static LineGraphSeries<DataPoint> series;
     private Thread add;
     private Viewport port;
     public boolean stopflag = false;
-    public static SharedPreferences preferences;
     int color = 0xC8E8DEDE;
     LineGraphSeries<DataPoint> nowseries;
     SQLiteDatabase DataBase;
     private float hour;
     private float minutes;
-    public static float now;                       //I made this static, please let me know if doing this is a problem -Nmd1 //change back to private when done testing
+    public static float now;
+    public static SharedPreferences preferences;
+
+    /**
+     * Called upon application launch. "Constructs" front- and back-end resources
+     *
+     * @param savedInstanceState if "waking up" app from memory
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,9 +55,8 @@ public class HomePage extends AppCompatActivity {
         setContentView(R.layout.activity_home_page);
         graph = (GraphView) findViewById(R.id.graph);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        graph.setTitle("Here's your graph, "+database.getName());
+        graph.setTitle("Here's your graph, " + database.getName());
         graph.setTitleColor(color);
-        //settings
 
         //make it scrollable and scalable
         port = graph.getViewport();
@@ -64,8 +73,6 @@ public class HomePage extends AppCompatActivity {
         hour = calendar.get(Calendar.HOUR_OF_DAY);
         minutes = calendar.get(Calendar.MINUTE);
         now = hour + (minutes / 60);
-        //REMOVE LATER
-
 
         port.setMinX(now - 4);
         port.setMaxX(now + 4);
@@ -95,33 +102,33 @@ public class HomePage extends AppCompatActivity {
         graph.addSeries(lethal);
         graph.addSeries(nervous);
 
-        //check if user is new:
-        //boolean isNew = database.newUser();
         boolean isNewUser = !getDatabasePath("coffeeData").exists();
 
-        if (isNewUser) //if new, we navigate to StartPage to allow user to enter info.
-        {
+        if (isNewUser) {
             //Create a new DB and populate it
-            DataBase = openOrCreateDatabase("coffeeData",MODE_PRIVATE,null);
-            StoredData.createTables(DataBase, "CaffineList","ConsumedCaffine");
-
+            DataBase = openOrCreateDatabase("coffeeData", MODE_PRIVATE, null);
+            StoredData.createTables(DataBase, "CaffineList", "ConsumedCaffine");
+            //Navigate to StartPage to allow user to enter info.
             Intent intent = new Intent(this, StartPage.class);
             startActivity(intent);
         } else {
-            DataBase = openOrCreateDatabase("coffeeData",MODE_PRIVATE,null);
+            DataBase = openOrCreateDatabase("coffeeData", MODE_PRIVATE, null);
             StoredData.myDB = DataBase;
             StoredData.caffineListTableName = "CaffineList";
             StoredData.caffineConsumedTableName = "ConsumedCaffine";
         }
 
         //plotting data
-        Thread plotPoints = new Thread(new getPoints());
+        Thread plotPoints = new Thread(new plotCaffeineLevelThread());
         plotPoints.start();
 
-        add = new Thread(new updatePoint());
+        add = new Thread(new updateNowLineThread());
         add.start();
     }
 
+    /**
+     * Called upon application close. Allows the threads to end gracefully
+     */
     @Override
     protected void onStop() {
         super.onStop();
@@ -130,25 +137,41 @@ public class HomePage extends AppCompatActivity {
     }
 
 
-    //callback function for the add button
+    /**
+     * "Add" button callback. Launches the AddDrink screen
+     *
+     * @param view application view
+     */
     public void add(View view) {
         Intent intent = new Intent(this, AddDrink.class);
         startActivity(intent);
     }
 
-    public void instructions(View view)
-    {
-        Intent intent = new Intent(this,Instructions.class);
+    /**
+     * "Help" button callback. Launches the Instructions screen
+     *
+     * @param view application view
+     */
+    public void instructions(View view) {
+        Intent intent = new Intent(this, Instructions.class);
         startActivity(intent);
     }
 
-    public class updatePoint extends Thread {
-        //keep updating the graph via this thread
+    /**
+     * Thread: Manages the updating of the graph's "now" vertical line.
+     *
+     * @author Trishita Tiwari
+     * @version 1.0
+     */
+    public class updateNowLineThread extends Thread {
+
+        /**
+         * Thread runner: Move the now line every 60 seconds
+         */
         public void run() {
             while (true) {
                 if (!stopflag) {
-                    if (nowseries != null)
-                    {
+                    if (nowseries != null) {
                         graph.removeSeries(nowseries);
                     }
                     Log.d("thread", "ran thread");
@@ -166,8 +189,7 @@ public class HomePage extends AppCompatActivity {
                                     new DataPoint(now, 600)
                             });
                     graph.addSeries(nowseries);
-                    try
-                    {
+                    try {
                         Thread.sleep(60000);
                     } catch (InterruptedException ie) {
                         return;
@@ -180,12 +202,20 @@ public class HomePage extends AppCompatActivity {
         }
     }
 
-    public class getPoints extends Thread
-    {
+    /**
+     * Thread: Manages plotting of the actual caffeine content data points on the graph
+     *
+     * @author Trishita Tiwari
+     * @version 1.0
+     */
+    public class plotCaffeineLevelThread extends Thread {
+
+        /**
+         * Thread runner: get the data from the back-end and plot it
+         */
         @Override
-        public void run()
-        {
-            datapts = database.getData(0,24);
+        public void run() {
+            datapts = database.getData(0, 24);
             series = new LineGraphSeries<>(datapts);
             //make it pretty
             series.setColor(color);

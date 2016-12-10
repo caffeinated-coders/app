@@ -85,8 +85,6 @@ public class StoredData {
     public static void selectCaffine(int index, double time) {
 
         //I want this row from caffine list table
-        /*retrieve data from database */
-        //Cursor c = myDB.rawQuery("SELECT * FROM " + caffineListTableName, null);
         int id = index + 1;
         Cursor c = myDB.rawQuery("SELECT * FROM " + caffineListTableName + " WHERE ID="+id+";", null);
         int Column1 = c.getColumnIndex("Name");
@@ -96,19 +94,6 @@ public class StoredData {
         int i = 0;
         String drinkName = c.getString(Column1);
         int caffineAmount = c.getInt(Column2);
-        /*
-        if (c != null) {
-            // Loop through all Results
-            do {
-                if(i*3 == index) {
-                    drinkName = c.getString(Column1);
-                    caffineAmount = c.getInt(Column2);
-                    break;
-                }
-
-                i++;
-            } while (c.moveToNext());
-        }*/
 
         //push that into the caffine consumed table
         addData(drinkName, caffineAmount, time);
