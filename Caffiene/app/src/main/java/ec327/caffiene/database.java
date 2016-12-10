@@ -23,11 +23,13 @@ public class database {
     private static double caffineInBrain = 0;
 
     private static int timeMult = 60; //1 for hours, 60 for minutes, 3600 for seconds.
-    public static boolean newUser()
-    {
-        //check if user is new by checking if the database is already populated.
-        return false;
-    }
+//    public static boolean newUser()
+//    {
+//        //check if user is new by checking if the database is already populated.
+//
+//
+//        return false;
+//    }
 
     public static String getName()
     {

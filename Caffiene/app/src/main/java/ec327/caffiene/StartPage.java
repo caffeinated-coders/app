@@ -27,7 +27,6 @@ public class StartPage extends AppCompatActivity {
 
     public void submit(View view) {
         // function that adds stuff to the database
-
         try
         {
             int age = Integer.parseInt(ageview.getText().toString());
@@ -36,14 +35,13 @@ public class StartPage extends AppCompatActivity {
             String gender = genderview.getSelectedItem().toString();
             database.addInfo(age,weight,name,gender); //the function that adds everything
             //navigate to the homepage after submission
-            Intent intent = new Intent(this, HomePage.class);
-            startActivity(intent);
         }
         catch (NumberFormatException n) //if the user does not enter a number, display a message.
         {
             Toast toast = Toast.makeText(getApplicationContext(), "Please enter a number",Toast.LENGTH_LONG);
             toast.show();
         }
+        finish();
         return;
     }
 
