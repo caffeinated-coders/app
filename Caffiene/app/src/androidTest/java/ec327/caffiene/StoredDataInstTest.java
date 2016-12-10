@@ -155,7 +155,7 @@ public class StoredDataInstTest {
         StoredData.selectCaffine(drinkIndex, time);
 
         // And from here, we can use the exact same testing code as addData() (consumed drinks)
-        Cursor cConsumedList = StoredData.getDatabase().rawQuery("SELECT * FROM TestConsumedList WHERE `TimeConsumed`="+time, null);
+        Cursor cConsumedList = StoredData.getDatabase().rawQuery("SELECT * FROM TestConsumedList WHERE `Name`='TERRIER_FUEL'", null);
         cConsumedList.moveToFirst();
 
         assertThat(cConsumedList.getCount(), is(1));

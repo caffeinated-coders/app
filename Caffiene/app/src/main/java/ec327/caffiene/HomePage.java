@@ -1,5 +1,6 @@
 package ec327.caffiene;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -17,7 +18,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-
+import static android.database.sqlite.SQLiteDatabase.OPEN_READWRITE;
+import static android.database.sqlite.SQLiteDatabase.openDatabase;
 
 
 public class HomePage extends AppCompatActivity {
@@ -41,18 +43,6 @@ public class HomePage extends AppCompatActivity {
         graph = (GraphView) findViewById(R.id.graph);
         graph.setTitle("Here's your graph, "+database.getName());
         graph.setTitleColor(color);
-
-        //create database- Move to on create once App is up and running
-        SQLiteDatabase DataBase = openOrCreateDatabase("coffeeData",MODE_PRIVATE,null);
-        StoredData.createTables(DataBase, "CaffineList","ConsumedCaffine"); //create database in if block below
-
-
-
-
-        
-        //plotting data
-        Thread plotPoints = new Thread(new getPoints());
-        plotPoints.start();
 
         //make it scrollable and scalable
         port = graph.getViewport();
@@ -101,23 +91,28 @@ public class HomePage extends AppCompatActivity {
         graph.addSeries(nervous);
 
         //check if user is new:
-        boolean isNew = database.newUser();
-        if (isNew) //if new, we navigate to StartPage to allow user to enter info.
+        //boolean isNew = database.newUser();
+        boolean isNewUser = !getDatabasePath("coffeeData").exists();
+
+        if (isNewUser) //if new, we navigate to StartPage to allow user to enter info.
         {
+            //Create a new DB and populate it
+            DataBase = openOrCreateDatabase("coffeeData",MODE_PRIVATE,null);
+            StoredData.createTables(DataBase, "CaffineList","ConsumedCaffine");
+
             Intent intent = new Intent(this, StartPage.class);
             startActivity(intent);
-            //PUT DATABASE CREATION HERE
-
-
-            StoredData.addDefaultCaffineList();
-
-
-
-
-
-
-
+        } else {
+            DataBase = openOrCreateDatabase("coffeeData",MODE_PRIVATE,null);
+            StoredData.myDB = DataBase;
+            StoredData.caffineListTableName = "CaffineList";
+            StoredData.caffineConsumedTableName = "ConsumedCaffine";
         }
+
+        //plotting data
+        Thread plotPoints = new Thread(new getPoints());
+        plotPoints.start();
+
         add = new Thread(new updatePoint());
         add.start();
     }
