@@ -19,6 +19,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".StartPage" />
+        <activity android:name=".AddDrink" />
+        <activity android:name=".AddCustom"></activity>
+        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
         <activity
             android:name=".StartPage"
             android:theme="@style/AppTheme.NoActionBar" />
