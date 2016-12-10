@@ -2,8 +2,10 @@ package ec327.caffiene;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +31,7 @@ public class HomePage extends AppCompatActivity {
     private Thread add;
     private Viewport port;
     public boolean stopflag = false;
+    public static SharedPreferences preferences;
     int color = 0xC8E8DEDE;
     LineGraphSeries<DataPoint> nowseries;
     SQLiteDatabase DataBase;
@@ -41,8 +44,10 @@ public class HomePage extends AppCompatActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_home_page);
         graph = (GraphView) findViewById(R.id.graph);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
         graph.setTitle("Here's your graph, "+database.getName());
         graph.setTitleColor(color);
+        //settings
 
         //make it scrollable and scalable
         port = graph.getViewport();
