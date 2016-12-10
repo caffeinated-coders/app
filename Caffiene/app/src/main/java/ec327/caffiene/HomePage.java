@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.database.sqlite.*;
-
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.Viewport;
@@ -94,19 +93,12 @@ public class HomePage extends AppCompatActivity {
                         new DataPoint(0, 400),
                         new DataPoint(24, 400)
                 });
-        LineGraphSeries<DataPoint> energetic = new LineGraphSeries<DataPoint>(new DataPoint[]
-                {
-                        new DataPoint(0, 300),
-                        new DataPoint(24, 300)
-                });
         //setting colors
-        energetic.setColor(Color.YELLOW);
-        nervous.setColor(R.color.orange);
+        nervous.setColor(Color.YELLOW);
         lethal.setColor(Color.RED);
         //graph the benchmanrks
         graph.addSeries(lethal);
         graph.addSeries(nervous);
-        graph.addSeries(energetic);
 
         //check if user is new:
         boolean isNew = database.newUser();
@@ -144,6 +136,12 @@ public class HomePage extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void instructions(View view)
+    {
+        Intent intent = new Intent(this,Instructions.class);
+        startActivity(intent);
+    }
+
     public class updatePoint extends Thread {
         //keep updating the graph via this thread
         public void run() {
@@ -170,7 +168,7 @@ public class HomePage extends AppCompatActivity {
                     graph.addSeries(nowseries);
                     try
                     {
-                        Thread.sleep(6000);
+                        Thread.sleep(60000);
                     } catch (InterruptedException ie) {
                         return;
                     }

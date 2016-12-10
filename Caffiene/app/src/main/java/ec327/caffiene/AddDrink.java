@@ -6,19 +6,16 @@ import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class AddDrink extends AppCompatActivity {
     private Thread searchresults;
@@ -58,7 +55,7 @@ public class AddDrink extends AppCompatActivity {
     {
         int numresults = sublayout.getChildCount();
         String drink = "unchecked";
-        float time;
+        double time;
         for (int i = 0; i < numresults; i++)
         {
             ToggleButton child = (ToggleButton) sublayout.getChildAt(i);
@@ -73,53 +70,27 @@ public class AddDrink extends AppCompatActivity {
         if (drink.equals("unchecked"))
         {
             //display message if all drinks unchecked
-            Toast toast = new Toast(this);
-            toast.makeText(this,"Please select a drink",Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(getApplicationContext(), "Please select a drink",Toast.LENGTH_LONG);
+            toast.show();
             return;
         }
         int drinkindex = alldrinks.indexOf(drink);
-        CheckBox drinknowbutton = (CheckBox) findViewById(R.id.drink_now);
 
-        if (drinknowbutton.isChecked())
-        {
-            //time = (new Date()).getTime()/1000; //this "time" didn't corrolate with the time in other files
-            //time = (time / (60 * 60 * 1000));  //this doesnt work
-            Date timed = new Date();
-            Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
-            calendar.setTime(timed);   // assigns calendar to given date
-            float hour = calendar.get(Calendar.HOUR_OF_DAY);
-            float minutes = calendar.get(Calendar.MINUTE);
-            time = hour + (minutes / 60);
-        }
-        else
-        {
-            EditText timeview = (EditText) findViewById(R.id.time);
-            try
-            {
-                //Date today = new Date();
-                //SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-                //Date timed = dateFormat.parse(timeview.getText().toString());
-                //time = timeparsed.getTime();
+        TimePicker timeview = (TimePicker) findViewById(R.id.time);
+        //Date today = new Date();
+        //SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        //Date timed = dateFormat.parse(timeview.getText().toString());
+        //time = timeparsed.getTime();
 
-                 //as time is in milliseconds.
-                //find time now
-                Date timed = new Date();
-                Calendar calendar = GregorianCalendar.getInstance(); // creates a new calendar instance
-                calendar.setTime(timed);   // assigns calendar to given date
-                float hour = calendar.get(Calendar.HOUR_OF_DAY);
-                float minutes = calendar.get(Calendar.MINUTE);
-                time = hour + (minutes / 60) +  Float.parseFloat(timeview.getText().toString());
-
-            }
-            catch (Exception p)
-            {
-                Toast toast = Toast.makeText(getApplicationContext(), "Please enter a valid time",Toast.LENGTH_LONG);
-                toast.show();
-                return;
-            }
-        }
+         //as time is in milliseconds.
+        //find time now
+        int hour = timeview.getHour();
+        int minutes = timeview.getMinute();
+        time = hour + minutes/60;
 
         database.addDrinktoDB(drinkindex,time);
+        Toast toast = Toast.makeText(getApplicationContext(), "Drink Added!",Toast.LENGTH_SHORT);
+        toast.show();
         Intent intent = new Intent(getApplicationContext(),HomePage.class);
         startActivity(intent);
 

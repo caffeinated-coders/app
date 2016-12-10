@@ -54,7 +54,7 @@ public class StoredData {
                 + " VALUES ('"+name+"', "+caffineContent+");");
     }
 
-    public static void addData(String name, int CaffineAmount, float timeOfConsumtion) {
+    public static void addData(String name, int CaffineAmount, double timeOfConsumtion) {
         /* Insert data to a Table*/
         myDB.execSQL("INSERT INTO "
                 + caffineConsumedTableName
@@ -90,7 +90,7 @@ public class StoredData {
     }
 
     //helper function: gets called through addDrinktoDB(int drinkindex, float time) in the database file
-    public static void selectCaffine(int index, float time) {
+    public static void selectCaffine(int index, double time) {
 
         //I want this row from caffine list table
         /*retrieve data from database */
