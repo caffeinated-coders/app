@@ -37,7 +37,8 @@
             tools:text="Hi, Welcome to CafTrack! We need some information to get you started!"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@color/white" />
 
         <EditText
 
