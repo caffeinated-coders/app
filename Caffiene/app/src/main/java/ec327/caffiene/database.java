@@ -147,21 +147,21 @@ public class database {
     {//We will implement a dynamic search, this function should remove all strings from the static arraylist in AddDrink.class
         //that don't don't have query as a substring
         //AddDrink.matches.remove(0); //dummy index.
-        Log.d(TAG,"ran this function in the thread");
+        //Log.d(TAG,"ran this function in the thread");
 
         int size =StoredData.getNumberOfRows(StoredData.caffineListTableName);
         for(int i = 0; i < size; i++) {
             String drinkelement = StoredData.getName(i);
             if(query.isEmpty()){
-                AddDrink.alldrinks.contains(drinkelement);
+                AddDrink.matches.contains(drinkelement);
                 continue;
             }
 
             boolean test = drinkelement.toLowerCase().contains(query.toLowerCase());
 
-            System.out.println(AddDrink.alldrinks.toString());
-            if(!test) AddDrink.alldrinks.remove(drinkelement);
-            else if(!AddDrink.alldrinks.contains(drinkelement)) AddDrink.alldrinks.add(drinkelement);
+            //System.out.println(AddDrink.matches.toString());
+            if(!test) AddDrink.matches.remove(drinkelement);
+            else if(!AddDrink.matches.contains(drinkelement)) AddDrink.matches.add(drinkelement);
         }
 
 
