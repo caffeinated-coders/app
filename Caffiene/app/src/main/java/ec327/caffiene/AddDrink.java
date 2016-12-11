@@ -83,7 +83,7 @@ public class AddDrink extends AppCompatActivity {
         //SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
         //Date timed = dateFormat.parse(timeview.getText().toString());
         //time = timeparsed.getTime();
-         //as time is in milliseconds.
+        //as time is in milliseconds.
         //find time now
         int hour = timeview.getHour();
         int minutes = timeview.getMinute();
@@ -126,26 +126,26 @@ public class AddDrink extends AppCompatActivity {
         for (int i = 0; i < drinks.size(); i++)
         {
             final String drink = drinks.get(i);
-            final ToggleButton drinkview = new ToggleButton(this);
-            drinkview.setText(drink);
-            drinkview.setTextColor(Color.WHITE);
-            drinkview.setBackgroundColor(ContextCompat.getColor(this, R.color.button));
-            sublayout.addView(drinkview);
+            final ToggleButton toggleButton = new ToggleButton(this);
+            toggleButton.setText(drink);
+            toggleButton.setTextColor(Color.WHITE);
+            toggleButton.setBackgroundColor(ContextCompat.getColor(this, R.color.button));
+            sublayout.addView(toggleButton);
             //set a listener for each toggle button. This changes the color of the button if user clicks on it
-            drinkview.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
-                        drinkview.setBackgroundColor(0x64443737);
-                        drinkview.setChecked(true);
-                        drinkview.setTextOn(drink);
-                        drinkview.setTextColor(Color.WHITE);
+                        toggleButton.setBackgroundColor(0x64443737);
+                        toggleButton.setChecked(true);
+                        toggleButton.setTextOn(drink);
+                        toggleButton.setTextColor(Color.WHITE);
                     }
                     else
                     {
-                        drinkview.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.button));
-                        drinkview.setChecked(false);
-                        drinkview.setTextOff(drink);
-                        drinkview.setTextColor(Color.WHITE);
+                        toggleButton.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.button));
+                        toggleButton.setChecked(false);
+                        toggleButton.setTextOff(drink);
+                        toggleButton.setTextColor(Color.WHITE);
                     }
                 }
             });
@@ -188,7 +188,7 @@ public class AddDrink extends AppCompatActivity {
                     }
                     try
                     {
-                        Thread.sleep(1000); //reruns every 10 milliseconds to update the search results
+                        Thread.sleep(10); //reruns every 10 milliseconds to update the search results
                     } catch (InterruptedException ie)
                     {
                         return;
