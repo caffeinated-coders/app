@@ -12,65 +12,6 @@
     android:clickable="false"
     android:focusable="true">
 
-        <EditText
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/name"
-            android:hint="@string/name"
-            android:textColorHint="@color/white"
-            android:textColor="@color/white"
-            android:layout_margin="42dp" />
-
-        <Spinner
-            android:id="@+id/choose_gender"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/gender"
-            android:text="@string/choose_your_gender"
-            android:prompt="@string/choose_your_gender"
-            android:layout_below="@+id/age"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:spinnerMode="dialog"
-            android:layout_margin="42dp" />
-
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:ems="10"
-            android:id="@+id/weight"
-            android:layout_gravity="center_horizontal"
-            android:layout_below="@+id/name"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:hint="@string/weight"
-            android:textColorHint="@color/white"
-            android:textColor="@color/white"
-            android:layout_marginBottom="42dp"
-            android:layout_marginRight="42dp"
-            android:layout_marginLeft="42dp" />
-
-
-        <EditText
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:ems="10"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/age"
-            android:hint="@string/age"
-            android:textColorHint="@color/white"
-            android:textColor="@color/white"
-            android:layout_below="@+id/weight"
-            android:layout_marginRight="42dp"
-            android:layout_alignLeft="@+id/choose_gender"
-            android:layout_alignStart="@+id/choose_gender" />
 
         <Button
             android:layout_width="match_parent"
@@ -85,6 +26,80 @@
             android:textColor="@color/white"
             android:layout_margin="42dp"
             android:clickable="true" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:id="@+id/textView6"
+            android:textAppearance="@android:style/TextAppearance.Material.Title"
+            tools:text="Hi, Welcome to CafTrack! We need some information to get you started!"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:textAlignment="center" />
+
+        <EditText
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/age"
+            android:hint="@string/age"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"
+            android:layout_marginRight="42dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="42dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:ems="10"
+            android:id="@+id/weight"
+            android:layout_gravity="center_horizontal"
+            android:hint="@string/weight"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"
+            android:layout_marginRight="42dp"
+            android:layout_marginLeft="42dp"
+            android:layout_above="@+id/age"
+            android:layout_alignEnd="@+id/age"
+            android:layout_marginBottom="34dp" />
+
+        <EditText
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/name"
+            android:hint="@string/name"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"
+            android:layout_marginLeft="42dp"
+            android:layout_marginRight="42dp"
+            android:layout_below="@+id/textView6"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="32dp" />
+
+        <Spinner
+            android:id="@+id/choose_gender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/gender"
+            android:text="@string/choose_your_gender"
+            android:prompt="@string/choose_your_gender"
+            android:spinnerMode="dialog"
+            android:layout_marginLeft="42dp"
+            android:layout_marginRight="42dp"
+            android:layout_marginBottom="46dp"
+            android:layout_above="@+id/button"
+            android:layout_alignEnd="@+id/age" />
 
 
 </RelativeLayout>
