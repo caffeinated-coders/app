@@ -83,7 +83,7 @@ public class AddDrink extends AppCompatActivity {
         //SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
         //Date timed = dateFormat.parse(timeview.getText().toString());
         //time = timeparsed.getTime();
-         //as time is in milliseconds.
+        //as time is in milliseconds.
         //find time now
         int hour = timeview.getHour();
         int minutes = timeview.getMinute();
@@ -188,7 +188,7 @@ public class AddDrink extends AppCompatActivity {
                     }
                     try
                     {
-                        Thread.sleep(1000); //reruns every 10 milliseconds to update the search results
+                        Thread.sleep(10); //reruns every 10 milliseconds to update the search results
                     } catch (InterruptedException ie)
                     {
                         return;
