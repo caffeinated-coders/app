@@ -37,7 +37,8 @@ public class StoredDataInstTest {
 
     @After
     public void tearDown() throws Exception {
-        //Nothing to do
+        DataBase.close();
+        ctx.deleteDatabase("coffeeData");
     }
 
     @Test
