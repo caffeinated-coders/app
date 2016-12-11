@@ -181,14 +181,13 @@ public class AddDrink extends AppCompatActivity {
                             @Override
                             public void run()
                             {
-
                                 addResults(matches);
                             }
                         });
                     }
                     try
                     {
-                        Thread.sleep(1000); //reruns every 10 milliseconds to update the search results
+                        Thread.sleep(1000); //reruns every 1000 milliseconds to update the search res
                     } catch (InterruptedException ie)
                     {
                         return;
