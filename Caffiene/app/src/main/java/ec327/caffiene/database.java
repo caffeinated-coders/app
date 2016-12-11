@@ -8,7 +8,7 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
-
+import android.content.SharedPreferences;
 /**
  * Created by trishita on 11/27/2016.
  */
@@ -22,6 +22,8 @@ public class database {
     private static double caffineLevel = 0;
     private static double caffineInBrain = 0;
 
+    //store person settings
+
     private static int timeMult = 60; //1 for hours, 60 for minutes, 3600 for seconds.
 //    public static boolean newUser()
 //    {
@@ -33,8 +35,7 @@ public class database {
 
     public static String getName()
     {
-        //returns name of the user to customize the graph
-        return "Trishita";
+        return HomePage.preferences.getString("name", "Oh Noes");
     }
 
     //gets data from the database table of caffeine items drunk
@@ -111,10 +112,22 @@ public class database {
 
         return result;
     }
+
     //info data
     public static void addInfo(int age, double weight, String name, String gender)
     {
         //add this data to a new table. Will ultimately never be used.
+        // We need an Editor object to make preference changes.
+        // All objects are from android.context.Context
+
+        SharedPreferences.Editor editor = HomePage.preferences.edit();
+
+        editor.putString("name", name);
+        editor.putInt("age", age);
+        editor.putFloat("weight", (float)weight);
+        editor.putString("gender", gender);
+        // Commit the edits!
+        editor.commit();
     }
 
 
@@ -135,6 +148,24 @@ public class database {
         //that don't don't have query as a substring
         //AddDrink.matches.remove(0); //dummy index.
         Log.d(TAG,"ran this function in the thread");
+
+        int size =StoredData.getNumberOfRows(StoredData.caffineListTableName);
+        for(int i = 0; i < size; i++) {
+            String drinkelement = StoredData.getName(i);
+            if(query.isEmpty()){
+                AddDrink.alldrinks.contains(drinkelement);
+                continue;
+            }
+
+            boolean test = drinkelement.toLowerCase().contains(query.toLowerCase());
+
+            System.out.println(AddDrink.alldrinks.toString());
+            if(!test) AddDrink.alldrinks.remove(drinkelement);
+            else if(!AddDrink.alldrinks.contains(drinkelement)) AddDrink.alldrinks.add(drinkelement);
+        }
+
+
+
         //
         //NOTE: this function is repeatedly called in a thread, so you must make sure it is efficient.
         //NOTE: THE ARRAYLIST YOU HAVE TO MODIFY IS AddDrink.matches
