@@ -33,7 +33,7 @@ public class StoredData {
         myDB.execSQL("CREATE TABLE IF NOT EXISTS "
                 + caffineTaken+"(ID INTEGER PRIMARY KEY AUTOINCREMENT, Name CHAR(50), Caffine INT, TimeConsumed FLOAT);");
         StoredData.addDefaultCaffineList();
-        database.addDrinktoDB(6,HomePage.now);
+        //database.addDrinktoDB(6,HomePage.now);
         //"id" is the index value
     }
 
