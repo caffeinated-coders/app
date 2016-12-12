@@ -187,7 +187,8 @@ public class AddDrink extends AppCompatActivity {
                     }
                     try
                     {
-                        Thread.sleep(1000); //reruns every 1000 milliseconds to update the search res
+                        Thread.sleep(1000); //reruns every 1000 milliseconds to update the search results
+
                     } catch (InterruptedException ie)
                     {
                         return;
