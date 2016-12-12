@@ -79,11 +79,6 @@ public class AddDrink extends AppCompatActivity {
         }
         int drinkindex = alldrinks.indexOf(drink);
 
-        //Date today = new Date();
-        //SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-        //Date timed = dateFormat.parse(timeview.getText().toString());
-        //time = timeparsed.getTime();
-        //as time is in milliseconds.
         //find time now
         int hour = timeview.getHour();
         int minutes = timeview.getMinute();
