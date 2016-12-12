@@ -157,13 +157,15 @@ public class AddDrink extends AppCompatActivity {
         @Override
         public void run()
         {
+            String lastTyped = "";
             while (true)
             {
                 checkIfSelected();
                 if (!stopflag) {
                     //checks if user has started to type in search bar. If so, then start thread that narrows down the searches
-                    if (searchbar.getText().toString().length() != 0)
+                    if (searchbar.getText().toString().length() != 0 && !searchbar.getText().toString().equals(lastTyped))
                     {
+                        lastTyped = searchbar.getText().toString();
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

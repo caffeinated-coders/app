@@ -33,7 +33,7 @@ public class StoredData {
         myDB.execSQL("CREATE TABLE IF NOT EXISTS "
                 + caffineTaken+"(ID INTEGER PRIMARY KEY AUTOINCREMENT, Name CHAR(50), Caffine INT, TimeConsumed FLOAT);");
         StoredData.addDefaultCaffineList();
-        database.addDrinktoDB(6,HomePage.now);
+        //database.addDrinktoDB(6,HomePage.now);
         //"id" is the index value
     }
 
@@ -198,7 +198,7 @@ public class StoredData {
         addData("Mountain Dew", 54);
         addData("Monster Energy Drink", 180);
         addData("Caffine Pill", 200);
-        addData("Test", 500);
+        //addData("Test", 500);
 
     }
 
