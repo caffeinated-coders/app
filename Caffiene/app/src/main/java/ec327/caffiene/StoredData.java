@@ -198,7 +198,7 @@ public class StoredData {
         addData("Mountain Dew", 54);
         addData("Monster Energy Drink", 180);
         addData("Caffine Pill", 200);
-        addData("Test", 500);
+        //addData("Test", 500);
 
     }
 
