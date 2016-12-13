@@ -8,8 +8,19 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.Toast;
 
+/**
+ * Screen for adding a custom drink
+ *
+ * @author Trishita Tiwari
+ * @version 1.0
+ */
 public class AddCustom extends AppCompatActivity {
 
+    /**
+     * Run on activity launch
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,6 +28,11 @@ public class AddCustom extends AppCompatActivity {
         setContentView(R.layout.activity_add_custom);
     }
 
+    /**
+     * Add a new drink to the DB
+     *
+     * @param view
+     */
     public void addNewDrink(View view) {
         EditText drinkview = (EditText) findViewById(R.id.custom_drink);
         String drink = drinkview.getText().toString();

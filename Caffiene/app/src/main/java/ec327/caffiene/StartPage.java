@@ -8,12 +8,23 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+/**
+ * Accepts user information on first launch
+ *
+ * @author Trishita Tiwari
+ * @version 1.0
+ */
 public class StartPage extends AppCompatActivity {
     private EditText ageview;
     private EditText weightview;
     private EditText nameview;
     private Spinner genderview;
 
+    /**
+     * Run on launch
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +36,11 @@ public class StartPage extends AppCompatActivity {
         genderview = (Spinner) findViewById(R.id.choose_gender);
     }
 
+    /**
+     * Adds user data to persistent storage
+     *
+     * @param view
+     */
     public void submit(View view) {
         // function that adds stuff to the database
         try {

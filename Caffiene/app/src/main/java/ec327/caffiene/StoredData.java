@@ -163,7 +163,11 @@ public class StoredData {
         return returnData;
     }
 
-
+    /**
+     * Generate a table of caffeine consumed times
+     *
+     * @return
+     */
     public static double[] timeTable() {
         int size = getNumberOfRows(consumptionListTableName);
         double[] times = new double[size];
