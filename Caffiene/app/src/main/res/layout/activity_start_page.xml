@@ -3,105 +3,105 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:clickable="false"
+    android:focusable="true"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="ec327.caffiene.StartPage"
-    android:background="@drawable/background"
-    android:clickable="false"
-    android:focusable="true">
+    tools:context="ec327.caffiene.StartPage">
 
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/submit"
-            android:layout_gravity="center_horizontal"
-            android:onClick="submit"
-            android:id="@+id/button"
-            android:layout_alignParentBottom="true"
-            android:background="@color/button"
-            android:layout_centerHorizontal="true"
-            android:textColor="@color/white"
-            android:layout_margin="42dp"
-            android:clickable="true" />
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="42dp"
+        android:background="@color/button"
+        android:clickable="true"
+        android:onClick="submit"
+        android:text="@string/submit"
+        android:textColor="@color/white" />
 
-        <EditText
+    <EditText
 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:ems="10"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/age"
-            android:hint="@string/age"
-            android:textColorHint="@color/white"
-            android:textColor="@color/white"
-            android:layout_marginRight="42dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginLeft="42dp" />
+        android:id="@+id/age"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="42dp"
+        android:layout_marginRight="42dp"
+        android:ems="10"
+        android:hint="@string/age"
+        android:inputType="number"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:ems="10"
-            android:id="@+id/weight"
-            android:layout_gravity="center_horizontal"
-            android:hint="@string/weight"
-            android:textColorHint="@color/white"
-            android:textColor="@color/white"
-            android:layout_marginRight="42dp"
-            android:layout_marginLeft="42dp"
-            android:layout_above="@+id/age"
-            android:layout_alignEnd="@+id/age"
-            android:layout_marginBottom="34dp" />
+    <EditText
+        android:id="@+id/weight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/age"
+        android:layout_alignEnd="@+id/age"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="34dp"
+        android:layout_marginLeft="42dp"
+        android:layout_marginRight="42dp"
+        android:ems="10"
+        android:hint="@string/weight"
+        android:inputType="numberDecimal"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white" />
 
-        <EditText
+    <EditText
 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/name"
-            android:hint="@string/name"
-            android:textColorHint="@color/white"
-            android:textColor="@color/white"
-            android:layout_marginLeft="42dp"
-            android:layout_marginRight="42dp"
-            android:layout_below="@+id/textView6"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="32dp" />
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView6"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="42dp"
+        android:layout_marginRight="42dp"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:hint="@string/name"
+        android:inputType="textPersonName"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white" />
 
-        <Spinner
-            android:id="@+id/choose_gender"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/gender"
-            android:text="@string/choose_your_gender"
-            android:prompt="@string/choose_your_gender"
-            android:spinnerMode="dialog"
-            android:layout_marginLeft="42dp"
-            android:layout_marginRight="42dp"
-            android:layout_marginBottom="46dp"
-            android:layout_above="@+id/button"
-            android:layout_alignEnd="@+id/age"
-            android:background="@color/black_overlay" />
+    <Spinner
+        android:id="@+id/choose_gender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button"
+        android:layout_alignEnd="@+id/age"
+        android:layout_marginBottom="46dp"
+        android:layout_marginLeft="42dp"
+        android:layout_marginRight="42dp"
+        android:background="@color/black_overlay"
+        android:entries="@array/gender"
+        android:prompt="@string/choose_your_gender"
+        android:spinnerMode="dialog"
+        android:text="@string/choose_your_gender" />
 
-        <TextView
-            android:text="Hi, Welcome to CafTrack! We need some information to get you started!"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
-            android:id="@+id/textView6"
-            android:textAppearance="@android:style/TextAppearance.Material.Title"
-            tools:text="Hi, Welcome to CafTrack! We need some information to get you started!"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="22dp"
+        android:text="Hi, Welcome to CafTrack! We need some information to get you started!"
+        android:textAlignment="center"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        android:textColor="@color/white"
+        tools:text="Hi, Welcome to CafTrack! We need some information to get you started!" />
 
 
 </RelativeLayout>

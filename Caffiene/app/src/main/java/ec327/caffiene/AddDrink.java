@@ -3,10 +3,9 @@ package ec327.caffiene;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.CompoundButton;
@@ -15,16 +14,28 @@ import android.widget.LinearLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
 import java.util.ArrayList;
 
+/**
+ * Screen for adding a consumed drink record
+ *
+ * @author Trishita Tiwari
+ * @version 1.0
+ */
 public class AddDrink extends AppCompatActivity {
+    public static ArrayList<String> matches;
+    public static EditText searchbar;
+    public static ArrayList<String> alldrinks;
+    private static LinearLayout sublayout;
+    public boolean stopflag = false;
     private Thread searchresults;
     private TimePicker timeview;
-    public static ArrayList<String> matches;
-    private static LinearLayout sublayout;
-    public static EditText searchbar;
-    public static ArrayList<String> alldrinks;                  //made this static too
-    public boolean stopflag = false;
+
+    public static String getQuery() {
+        return searchbar.getText().toString();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,22 +56,27 @@ public class AddDrink extends AppCompatActivity {
         searchresults.start();
     }
 
-
+    /**
+     * Run on application stop. Safely stops thread
+     */
     @Override
-    protected void onStop()
-    {
+    protected void onStop() {
         super.onStop();
         this.stopflag = true;
 
     }
 
-    public void addDrink(View view) //callback function for add drink button
+    /**
+     * Callback function for add drink button
+     *
+     * @param view application view
+     */
+    public void addDrink(View view) //
     {
         int numresults = sublayout.getChildCount();
         String drink = "unchecked";
         double time;
-        for (int i = 0; i < numresults; i++)
-        {
+        for (int i = 0; i < numresults; i++) {
             ToggleButton child = (ToggleButton) sublayout.getChildAt(i);
             if (child.isChecked()) //get isChecked attribute to see if user has checked.
             {
@@ -70,10 +86,9 @@ public class AddDrink extends AppCompatActivity {
         }
         //if the user hasn't picked a drink, remind him to.
 
-        if (drink.equals("unchecked"))
-        {
+        if (drink.equals("unchecked")) {
             //display message if all drinks unchecked
-            Toast toast = Toast.makeText(getApplicationContext(), "Please select a drink",Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(getApplicationContext(), "Please select a drink", Toast.LENGTH_LONG);
             toast.show();
             return;
         }
@@ -82,32 +97,25 @@ public class AddDrink extends AppCompatActivity {
         //find time now
         int hour = timeview.getHour();
         int minutes = timeview.getMinute();
-        time = hour + minutes/60;
+        time = hour + minutes / 60;
 
-        database.addDrinktoDB(drinkindex,time);
-        Toast toast = Toast.makeText(getApplicationContext(), "Drink Added!",Toast.LENGTH_SHORT);
+        database.addDrinktoDB(drinkindex, time);
+        Toast toast = Toast.makeText(getApplicationContext(), "Drink Added!", Toast.LENGTH_SHORT);
         toast.show();
-        Intent intent = new Intent(getApplicationContext(),HomePage.class);
+        Intent intent = new Intent(getApplicationContext(), HomePage.class);
         startActivity(intent);
 
-    }
-
-    public static String getQuery()
-    {
-        return searchbar.getText().toString();
     }
 
     public void addCustom(View view) //callback function for adding custom drink button
     {
-        Intent intent = new Intent(this,AddCustom.class);
+        Intent intent = new Intent(this, AddCustom.class);
         startActivity(intent);
     }
 
-    public void checkIfSelected()
-    {
+    public void checkIfSelected() {
         int numresults = sublayout.getChildCount();
-        for (int i = 0; i < numresults; i++)
-        {
+        for (int i = 0; i < numresults; i++) {
             ToggleButton child = (ToggleButton) sublayout.getChildAt(i);
             if (child.isChecked()) //get isChecked attribute to see if user has checked.
             {
@@ -118,8 +126,7 @@ public class AddDrink extends AppCompatActivity {
     }
 
     public void addResults(final ArrayList<String> drinks) {
-        for (int i = 0; i < drinks.size(); i++)
-        {
+        for (int i = 0; i < drinks.size(); i++) {
             final String drink = drinks.get(i);
             final ToggleButton toggleButton = new ToggleButton(this);
             toggleButton.setText(drink);
@@ -134,9 +141,7 @@ public class AddDrink extends AppCompatActivity {
                         toggleButton.setChecked(true);
                         toggleButton.setTextOn(drink);
                         toggleButton.setTextColor(Color.WHITE);
-                    }
-                    else
-                    {
+                    } else {
                         toggleButton.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.button));
                         toggleButton.setChecked(false);
                         toggleButton.setTextOff(drink);
@@ -146,20 +151,18 @@ public class AddDrink extends AppCompatActivity {
             });
         }
     }
-    public class dynamicSearch extends Thread
-    {
+
+    public class dynamicSearch extends Thread {
         public String typed;
+
         @Override
-        public void run()
-        {
+        public void run() {
             String lastTyped = "";
-            while (true)
-            {
+            while (true) {
                 checkIfSelected();
                 if (!stopflag) {
                     //checks if user has started to type in search bar. If so, then start thread that narrows down the searches
-                    if (searchbar.getText().toString().length() != 0 && !searchbar.getText().toString().equals(lastTyped))
-                    {
+                    if (searchbar.getText().toString().length() != 0 && !searchbar.getText().toString().equals(lastTyped)) {
                         lastTyped = searchbar.getText().toString();
                         runOnUiThread(new Runnable() {
                             @Override
@@ -173,21 +176,17 @@ public class AddDrink extends AppCompatActivity {
                         //updates our list of matches
                         database.matchQuery(this.typed);
                         //adds toggle buttons for each of them
-                        runOnUiThread(new Runnable()
-                        {
+                        runOnUiThread(new Runnable() {
                             @Override
-                            public void run()
-                            {
+                            public void run() {
                                 addResults(matches);
                             }
                         });
                     }
-                    try
-                    {
+                    try {
                         Thread.sleep(1000); //reruns every 1000 milliseconds to update the search results
 
-                    } catch (InterruptedException ie)
-                    {
+                    } catch (InterruptedException ie) {
                         return;
                     }
                 } else {
