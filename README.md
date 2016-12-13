@@ -1,6 +1,8 @@
 # CafTrak
 ## Created by Anthony Byrne, Trishita Tiwari, Andres Rojas, and Nehemiah Dureus
 
+*Note: Application project files contained in "Caffeine." Be sure to open this folder in Android Studio, not the repo root.
+
 ## Installation
 A signed APK is provided for installation. Note that you may have to enable acceptance of self-signed certificates in your device settings
 
