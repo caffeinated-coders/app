@@ -3,7 +3,6 @@ package ec327.caffiene;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.provider.ContactsContract;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
@@ -25,9 +24,9 @@ import static org.junit.Assert.assertThat;
 public class StoredDataInstTest {
     //public static HomePage home;
 
+    private static final String TAG = "SDIT";
     private SQLiteDatabase DataBase;
     private Context ctx;
-    private static final String TAG = "SDIT";
 
     @Before
     public void setUp() throws Exception {

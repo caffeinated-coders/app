@@ -29,19 +29,19 @@ import java.util.GregorianCalendar;
  * @version 1.0
  */
 public class HomePage extends AppCompatActivity {
-    private GraphView graph;
-    private DataPoint[] datapts;
     public static LineGraphSeries<DataPoint> series;
-    private Thread add;
-    private Viewport port;
+    public static float now;
+    public static SharedPreferences preferences;
     public boolean stopflag = false;
     int color = 0xC8E8DEDE;
     LineGraphSeries<DataPoint> nowseries;
     SQLiteDatabase DataBase;
+    private GraphView graph;
+    private DataPoint[] datapts;
+    private Thread add;
+    private Viewport port;
     private float hour;
     private float minutes;
-    public static float now;
-    public static SharedPreferences preferences;
 
     /**
      * Called upon application launch. "Constructs" front- and back-end resources
