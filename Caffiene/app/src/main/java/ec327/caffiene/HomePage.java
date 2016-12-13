@@ -114,8 +114,8 @@ public class HomePage extends AppCompatActivity {
         } else {
             DataBase = openOrCreateDatabase("coffeeData", MODE_PRIVATE, null);
             StoredData.myDB = DataBase;
-            StoredData.caffineListTableName = "CaffineList";
-            StoredData.caffineConsumedTableName = "ConsumedCaffine";
+            StoredData.beverageListTableName = "CaffineList";
+            StoredData.consumptionListTableName = "ConsumedCaffine";
         }
 
         //plotting data

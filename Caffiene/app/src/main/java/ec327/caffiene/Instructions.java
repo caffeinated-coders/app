@@ -5,6 +5,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+/**
+ * Shows instructions for app usage
+ *
+ * @author Trishita Tiwari
+ * @version 1.0
+ */
 public class Instructions extends AppCompatActivity {
 
     @Override

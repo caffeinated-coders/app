@@ -17,10 +17,16 @@ import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 
+/**
+ * Screen for adding a consumed drink record
+ *
+ * @author Trishita Tiwari
+ * @version 1.0
+ */
 public class AddDrink extends AppCompatActivity {
     public static ArrayList<String> matches;
     public static EditText searchbar;
-    public static ArrayList<String> alldrinks;                  //made this static too
+    public static ArrayList<String> alldrinks;
     private static LinearLayout sublayout;
     public boolean stopflag = false;
     private Thread searchresults;
@@ -50,6 +56,9 @@ public class AddDrink extends AppCompatActivity {
         searchresults.start();
     }
 
+    /**
+     * Run on application stop. Safely stops thread
+     */
     @Override
     protected void onStop() {
         super.onStop();
@@ -57,7 +66,12 @@ public class AddDrink extends AppCompatActivity {
 
     }
 
-    public void addDrink(View view) //callback function for add drink button
+    /**
+     * Callback function for add drink button
+     *
+     * @param view application view
+     */
+    public void addDrink(View view) //
     {
         int numresults = sublayout.getChildCount();
         String drink = "unchecked";

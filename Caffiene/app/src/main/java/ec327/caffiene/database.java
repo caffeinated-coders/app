@@ -8,27 +8,22 @@ import com.jjoe64.graphview.series.DataPoint;
 import java.util.ArrayList;
 
 /**
- * Created by trishita on 11/27/2016.
+ * Handles connections between our view and StoredData model
+ *
+ * @author Trishita Tiwari
+ * @version 1.0
  */
 public class database {
 
-    private static final String TAG = "threadDebug"; //remove later!
+    private static final String TAG = "threadDebug";
     public static int numDrinks;
-    public static int counter = 0; //DELETE WHEN YOU IMPLEMENT getPoint function!
+    public static int counter = 0;
     //global caffine variables
     private static double caffineLevel = 0;
     private static double caffineInBrain = 0;
 
     //store person settings
-
     private static int timeMult = 60; //1 for hours, 60 for minutes, 3600 for seconds.
-//    public static boolean newUser()
-//    {
-//        //check if user is new by checking if the database is already populated.
-//
-//
-//        return false;
-//    }
 
     public static String getName() {
         return HomePage.preferences.getString("name", "Oh Noes");
@@ -37,15 +32,13 @@ public class database {
     //gets data from the database table of caffeine items drunk
     //and plots them on the chart, based off of the time they were drunk.
     public static DataPoint[] getData(double start, double end) {
-        //200, 5
-        //int iterations = 24;  //unneeded
         int size = (int) (end - start) * timeMult;
         DataPoint[] data = new DataPoint[size];
         //x is time, y is caffine amount
 
         //get times where the graph will need to be updated:
         double[] times = StoredData.timeTable();
-        int[] addCaff = StoredData.caffineTable();
+        int[] addCaff = StoredData.caffeineTable();
         int nestedsize = times.length;
         //Multiday problem: set a day bit to true if previous elements are less than 24 hours
         //or have an int instead and delete caffine data after five days. It's not like the user is going to drink thousands of cups of coffee
@@ -133,7 +126,7 @@ public class database {
         //add drink to database
         //called when user decides that he/she wants to drink a specefic drink at the specefied time
         //float time = HomePage.getTime();
-        StoredData.selectCaffine(drinkindex, time * timeMult);
+        StoredData.selectCaffeine(drinkindex, time * timeMult);
         //////update the graph////////////////////
     }
 
@@ -144,7 +137,7 @@ public class database {
         //AddDrink.matches.remove(0); //dummy index.
         //Log.d(TAG,"ran this function in the thread");
 
-        int size = StoredData.getNumberOfRows(StoredData.caffineListTableName);
+        int size = StoredData.getNumberOfRows(StoredData.beverageListTableName);
         for (int i = 0; i < size; i++) {
             String drinkelement = StoredData.getName(i);
             if (query.isEmpty()) {
@@ -159,8 +152,6 @@ public class database {
             else if (!AddDrink.matches.contains(drinkelement)) AddDrink.matches.add(drinkelement);
         }
 
-
-        //
         //NOTE: this function is repeatedly called in a thread, so you must make sure it is efficient.
         //NOTE: THE ARRAYLIST YOU HAVE TO MODIFY IS AddDrink.matches
     }
@@ -169,17 +160,17 @@ public class database {
     //currently not showing new choices. I believe its due to
     public static void addNewDrink(String drink, float caffiene) {
         int caff = (int) caffiene;
-        StoredData.addData(drink, caff);
+        StoredData.addBeverageToDB(drink, caff);
         AddDrink.alldrinks = allDrinks();
     }
 
     //this is all of the drinks.
     //test by tapping 'add drink'
     public static ArrayList<String> allDrinks() {
-        numDrinks = StoredData.getNumberOfRows(StoredData.caffineListTableName); //the number of drinks in the database
+        numDrinks = StoredData.getNumberOfRows(StoredData.beverageListTableName); //the number of drinks in the database
         //return all the drink names in the database as an arrayList of strings IN ALPHABETICAL ORDER!
         ArrayList<String> list = new ArrayList<String>(numDrinks);
-        int size = StoredData.getNumberOfRows(StoredData.caffineListTableName);
+        int size = StoredData.getNumberOfRows(StoredData.beverageListTableName);
         for (int i = 0; i < size; i++) {
             list.add(i, StoredData.getName(i));
         }
